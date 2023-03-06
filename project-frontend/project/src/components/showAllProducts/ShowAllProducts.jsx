@@ -12,7 +12,9 @@ const ShowAllProducts = ({ name, desc, id }) => {
   };
   let isOnFavorites = false;
   useEffect(() => {
-    axios
+    
+    if(userInfo){
+      axios
       .get(`/auth/getfavproductsarray/${userInfo.id}`)
       .then(async (res) => {
         setData(res.data);
@@ -20,6 +22,8 @@ const ShowAllProducts = ({ name, desc, id }) => {
       .catch((err) => {
         console.log(err);
       });
+    }
+    
   }, []);
   for (let item of data) {
     if (item === id) {

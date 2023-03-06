@@ -58,7 +58,7 @@ router.get("/getbyid/:id", async (req, res) => {
 
 //GET FAV PRODUCTS 
 router.get("/getfavproducts", async (req, res) => {
-  debug("req.query.productCardsArray "+ req.query.productCardsArray)
+  debug("req.query.productCards "+ req.query.productCardsArray)
   try {
 if(!req.query.productCardsArray){
   throw " error with DATA"

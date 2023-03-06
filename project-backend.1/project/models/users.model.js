@@ -65,7 +65,7 @@ const addProductToGoogleUserFav = (id, productID) => {
 // const addProductToGoogleUserFav = (id,favProducts) => GoogleUsers.findOneAndUpdate(id,{$push:{favProducts}})
 const findUserById = (id) => Users.findOne({ _id:id });
 
-const findGoogleUserById = (id) => GoogleUsers.findOne({ id });
+const findGoogleUserById = (id) => GoogleUsers.findOne({ _id:id });
 
 module.exports = {
   findUserByEmail,

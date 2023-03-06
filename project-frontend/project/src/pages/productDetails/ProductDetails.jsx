@@ -9,9 +9,29 @@ const ProductDetails = () => {
   const [productReview, setProductReview] = useState({
     reviewDescription: "",
   });
+  const [data, setData] = useState([]);
   const [reviewsArray, setReviewsArray] = useState([]);
   let { id } = useParams();
   const userInfo = useSelector((state) => state.auth.userData);
+  let isOnFavorites = false;
+  useEffect(() => {
+    if(userInfo){
+      axios
+      .get(`/auth/getfavproductsarray/${userInfo.id}`)
+      .then(async (res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+    
+  }, []);
+  for (let item of data) {
+    if (item === id) {
+      isOnFavorites = true;
+    }
+  }
   useEffect(() => {
     axios
       .get(`/products/getbyid/${id}`)
@@ -31,6 +51,7 @@ const ProductDetails = () => {
         console.log(err);
       });
   }, []);
+
   const handleUserInputChange = (ev) => {
     let newUserInput = JSON.parse(JSON.stringify(productReview));
     if (newUserInput.hasOwnProperty(ev.target.id)) {
@@ -39,9 +60,10 @@ const ProductDetails = () => {
       // console.log(productReview);
     }
   };
+  
 
   const handleSubmitClick = (ev) => {
-    console.log("here");
+    // console.log("here");
     ev.preventDefault();
     // let formData = new FormData();
     // formData.append("productName", productData.productName );
@@ -52,7 +74,7 @@ const ProductDetails = () => {
       productName: productData.productName,
       reviewDescription: productReview.reviewDescription,
     };
-    console.log(data);
+    // console.log(data);
     axios
       .post(`/reviews/${id} `, data)
       .then(async (res) => {})
@@ -60,19 +82,30 @@ const ProductDetails = () => {
         console.log(err);
       });
   };
-  const handleAddToFavBtnClick = ()=>{
-    // let formdata = new FormData()
-    // formdata.append("userId" , userInfo.id)
-
-    axios
-      .patch(`/auth/addtofav/${id} `, userInfo )
+  const handleAddOrRemoveProductFromFav = () => {
+    if(!isOnFavorites){
+      axios
+      .patch(`/auth/addtofav/${id} `, userInfo)
       .then(async (res) => {
-        console.log(res.data)
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }
+    }
+    if(isOnFavorites){
+      axios
+      .patch(`/auth/removefromfav/${id} `, userInfo)
+      .then(async (res) => {
+        // console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+
+    
+  };
   return (
     <Fragment>
       <div className="img-details my-5">
@@ -82,7 +115,13 @@ const ProductDetails = () => {
         <div className="card-body">
           <h5 className="card-title">{productData.productName}</h5>
           <p className="card-text">{productData.productDescription}</p>
-          <button type="button" className="btn btn-primary" onClick={handleAddToFavBtnClick}>Add to Favorites</button>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={handleAddOrRemoveProductFromFav}
+          >
+            {isOnFavorites ? "Remove from Favorites" : "Add to Favorites "}
+          </button>
           <div className="card-body"></div>
         </div>
       </div>

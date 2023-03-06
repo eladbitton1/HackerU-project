@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect,Fragment } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import validate from "../validation/validation";
@@ -6,7 +6,7 @@ import loginSchema from "../validation/login_Validation";
 import useAutoLogin from "../hooks/useAutoLogin";
 import { useHistory } from "react-router-dom";
 import LoginWithGoogle from "../components/LoginWithGoogle"
-import { Fragment } from "react";
+
 
 const Login = () => {
   const [userInput, setUserInput] = useState({
@@ -81,6 +81,7 @@ const Login = () => {
       });
       return;
     }
+    console.log(userInput)
     axios
       .post("/auth/login", userInput)
       .then(async (res) => {
@@ -108,6 +109,9 @@ const Login = () => {
         });
       });
   };
+  const handleForgotPassWordBtnClick= ()=>{
+    history.push("/forgot-password")
+  }
   return ( <Fragment>
     <form onSubmit={handleSubmit}>
       <h2>Login page</h2>
@@ -141,11 +145,11 @@ const Login = () => {
         </div>
         <label htmlFor="password">Password</label>
       </div>
-      <button className="btn btn-primary">Login</button>
+      <button type="submit" className="btn btn-primary">Login</button>
     </form>
 
 <LoginWithGoogle/>
-
+<button className="btn btn-primary " onClick={handleForgotPassWordBtnClick}>Forgot password?</button>
     </Fragment>
   );
 };

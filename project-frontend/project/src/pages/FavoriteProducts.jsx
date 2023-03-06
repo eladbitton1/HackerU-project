@@ -13,6 +13,7 @@ const FavoriteProducts = () => {
   const [productCardsArray, setProductCardsArray] = useState(
     initialProductCardsArray
   );
+ 
   const [favProducts, setFavProducts] = useState(favProductsFromDB);
   let { id } = useParams();
 
@@ -20,6 +21,8 @@ const FavoriteProducts = () => {
     axios
       .get(`/auth/getfavproductsarray/${id}`)
       .then(async (res) => {
+        // console.log(res.data)
+        
         initialProductCardsArray = res.data;
         setProductCardsArray(initialProductCardsArray);
       })
@@ -40,6 +43,8 @@ const FavoriteProducts = () => {
         console.log(err);
       });
   },[initialProductCardsArray]);
+
+
   //  console.log(productCardsArray)
   //   useEffect(() => {
 

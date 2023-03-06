@@ -45,10 +45,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const transporter = nodemailer.createTransport({
-  service: "hotmail",
+  service: "outlook",
   auth: {
-    user: "etracegaming@gmail.com",
-    pass: "EladNodeJS",
+    user: "HackerU.project@outlook.com",
+    pass: "eShop25506!Aa",
   },
 });
 
@@ -173,28 +173,35 @@ router.patch("/addtofav/:id", async (req, res) => {
   }
 });
 
-
 //GET FAV products
 router.get("/getfavproductsarray/:id", async (req, res) => {
   try {
-   const findUserQueryById = await findUserById(req.params.id)
-  //  debug(findUserQueryById.favProducts)
-  
-    
-    res.json(findUserQueryById.favProducts);
+    const findUserQueryById = await findUserById(req.params.id);
+
+    const findGoogleUserQueryById = await findGoogleUserById(req.params.id);
+
+    //  debug(findUserQueryById.favProducts)
+    if (findUserQueryById) {
+      res.json(findUserQueryById.favProducts);
+    }
+    res.json(findGoogleUserQueryById.favProducts);
   } catch (error) {
     res.status(400).json({ error });
   }
 });
 
 //REMOVE PRODUCT FROM FAV
-router.patch("/removefromfav:id", async (req, res) => {
+router.patch("/removefromfav/:id", async (req, res) => {
   try {
     let userID = await req.body._id;
     let productID = req.params.id;
-    const removeFromFavorites = await removeFavProductByID(userID, productID);
-
-    res.status(200).json("updated");
+    const removeProductFromFavorites = await removeFavProductByID(
+      userID,
+      productID
+    );
+    const removeGoogleUserProductFromFavorites =
+      await removeGoogleUserFavProductByID(userID, productID);
+    res.status(200).json("product removed");
   } catch (error) {
     debug(error);
     res.status(400).json({ error });
@@ -230,16 +237,19 @@ router.post("/forgotpassword", async (req, res) => {
   try {
     const validatedValue = await validateForgotPasswordSchema(req.body);
     const userData = await findUserByEmail(validatedValue.email);
-    if (!userData) throw "check your inbox";
+    if (!userData) throw "error";
     const jwt = await genToken({ email: userData.email }, "1h");
+    debug(userData.email);
     //send email or sms
     let passwordResetLink = "http://localhost:3000/resetpassword/" + jwt;
 
     const options = {
-      from: "etracegaming@gmail.com",
+      from: "HackerU.project@outlook.com",
       to: userData.email,
       subject: "Password Reset",
-      text: passwordResetLink,
+      text:
+        "Click the following link to reset your password:  " +
+        passwordResetLink,
     };
     transporter.sendMail(options, (err, info) => {
       if (err) {
@@ -259,12 +269,14 @@ router.post("/forgotpassword", async (req, res) => {
 router.post("/resetpassword/:token", async (req, res) => {
   try {
     //add joy for password
+
     const validatedValue = await validatePasswordSchema(req.body.password);
     const payload = await verifyToken(req.params.token);
     const userData = await findUserByEmail(payload.email);
+    debug(validatedValue);
     if (!userData) throw "something went wrong";
 
-    const hashedPassword = await createHash(validatedValue);
+    const hashedPassword = await createHash(validatedValue.password);
     await updatePasswordById(userData._id, hashedPassword);
     res.json({ msg: "password updated" });
   } catch (err) {

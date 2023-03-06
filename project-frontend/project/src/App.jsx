@@ -19,6 +19,8 @@ import UpdateProfilePic from "./pages/ProfilePic";
 import MyShop from "./pages/myshop/MyShop";
 import FavoriteProducts from "./pages/FavoriteProducts"
 import AuthGuard from "components/AuthGuard";
+import ForgotPassword from "./pages/ForgotPassword"
+import ResetPassword from "./pages/ResetPassword"
 import PageNotFound from "pages/PageNotFound";
 import { ToastContainer } from "react-toastify";
 
@@ -59,6 +61,8 @@ const App = () => {
           <Route path="/update-profile-pic/:id" component={UpdateProfilePic} />
           <Route path="/aboutus" component={AboutusPage} />
           <Route path="/login" component={Login} />
+          <Route path="/forgot-password" component={ForgotPassword} />
+          <Route path="/resetpassword/:token" component={ResetPassword} />
           <Route path="/register" component={Register} />
           <Route path="/loading" component={Loading} />
           <AuthGuard path="/my-account/:id" component={UserAccount} />
