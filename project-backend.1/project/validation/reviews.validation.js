@@ -3,11 +3,13 @@ const validate = require("./validate");
 
 const newReviewSchema = Joi.object({
   productName: Joi.string().min(2).max(255).required().trim(),
+  reviewAuthor:Joi.string().min(2).max(255).required().trim(),
   reviewDescription: Joi.string().min(2).max(255).required().trim(),
 });
 const updateReviewSchema = Joi.object({
   id: Joi.string().length(24).hex().required().trim(),
   productName: Joi.string().min(2).max(255).required().trim(),
+  reviewAuthor:Joi.string().min(2).max(255).required().trim(),
   reviewDescription: Joi.string().min(2).max(255).required().trim(),
 });
 const deleteReviewSchema = Joi.object({

@@ -17,6 +17,7 @@ import CreateProduct from "./pages/CreateProduct";
 import ProductImagesUpload from "./components/ProductImagesUpload";
 import UpdateProfilePic from "./pages/ProfilePic";
 import MyShop from "./pages/myshop/MyShop";
+import EditProduct from "./pages/EditProduct";
 import FavoriteProducts from "./pages/FavoriteProducts"
 import AuthGuard from "components/AuthGuard";
 import ForgotPassword from "./pages/ForgotPassword"
@@ -55,6 +56,7 @@ const App = () => {
           <Route path="/card-details/:id" component={ProductDetails} />
           <Route path="/create-product" component={CreateProduct} />
           <Route path="/my-shop/:id" component={MyShop} />
+          <Route path="/edit-product/:id" component={EditProduct} />
           <Route path="/favorite-products/:id" component={FavoriteProducts} />
           <Route path="/product-images/:id" component={ProductImagesUpload} />
           <Route path="/img-test" component={ImagePageTest} />

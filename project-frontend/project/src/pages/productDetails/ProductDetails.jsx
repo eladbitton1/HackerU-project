@@ -3,8 +3,13 @@ import { Fragment, useState, useEffect } from "react";
 import axios from "axios";
 import ProductImgs from "../../components/productImgs/productImgs";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import Reviews from "../../components/Reviews";
 import "./productDetails.scss";
 const ProductDetails = () => {
+  const history = useHistory();
   const [productData, setProductData] = useState({});
   const [productReview, setProductReview] = useState({
     reviewDescription: "",
@@ -15,17 +20,16 @@ const ProductDetails = () => {
   const userInfo = useSelector((state) => state.auth.userData);
   let isOnFavorites = false;
   useEffect(() => {
-    if(userInfo){
+    if (userInfo) {
       axios
-      .get(`/auth/getfavproductsarray/${userInfo.id}`)
-      .then(async (res) => {
-        setData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        .get(`/auth/getfavproductsarray/${userInfo.id}`)
+        .then(async (res) => {
+          setData(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    
   }, []);
   for (let item of data) {
     if (item === id) {
@@ -60,7 +64,6 @@ const ProductDetails = () => {
       // console.log(productReview);
     }
   };
-  
 
   const handleSubmitClick = (ev) => {
     // console.log("here");
@@ -72,6 +75,7 @@ const ProductDetails = () => {
 
     let data = {
       productName: productData.productName,
+      reviewAuthor: userInfo.name,
       reviewDescription: productReview.reviewDescription,
     };
     // console.log(data);
@@ -83,28 +87,40 @@ const ProductDetails = () => {
       });
   };
   const handleAddOrRemoveProductFromFav = () => {
-    if(!isOnFavorites){
+    if (!isOnFavorites) {
       axios
-      .patch(`/auth/addtofav/${id} `, userInfo)
+        .patch(`/auth/addtofav/${id} `, userInfo)
+        .then(async (res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    if (isOnFavorites) {
+      axios
+        .patch(`/auth/removefromfav/${id} `, userInfo)
+        .then(async (res) => {
+          // console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+  const handleEditProductsBtnClick = () => {
+    history.push(`/edit-product/${id}`);
+  };
+  // const handleOpenModalBtnClick = () => {};
+  const handleProductDelete = () => {
+    axios
+      .delete(`/products/${id} `)
       .then(async (res) => {
         console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-    }
-    if(isOnFavorites){
-      axios
-      .patch(`/auth/removefromfav/${id} `, userInfo)
-      .then(async (res) => {
-        // console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }
-
-    
   };
   return (
     <Fragment>
@@ -115,6 +131,26 @@ const ProductDetails = () => {
         <div className="card-body">
           <h5 className="card-title">{productData.productName}</h5>
           <p className="card-text">{productData.productDescription}</p>
+          <p className="card-text">{productData.productPrice} $</p>
+          <button
+            type="button"
+            className="btn btn-warning"
+            onClick={handleEditProductsBtnClick}
+          >
+            <FontAwesomeIcon icon={faPenToSquare} />
+            &nbsp;Edit product
+            {/* {isOnFavorites ? "Remove from Favorites" : "Add to Favorites "} */}
+          </button>
+          <button
+            type="button"
+            className="btn btn-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            // onClick={handleOpenModalBtnClick}
+          >
+            <FontAwesomeIcon icon={faTrashCan} />
+            &nbsp;Delete
+          </button>
           <button
             type="button"
             className="btn btn-primary"
@@ -126,7 +162,7 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      <form method="POST" action="/register" onSubmit={handleSubmitClick}>
+      {/* <form method="POST" action="/" onSubmit={handleSubmitClick}>
         <div className="mb-3 my-5">
           <label htmlFor="review" className="form-label">
             Leave a review for {productData.productName} :
@@ -141,14 +177,14 @@ const ProductDetails = () => {
         <button type="submit" className="btn btn-primary">
           Send Review
         </button>
-      </form>
-
+      </form> */}
+      <Reviews />
       {/* REVIEWS ! */}
-      {reviewsArray.map((item) => (
+      {/* {reviewsArray.map((item) => (
         <ul className="list-group my-5" key={item._id}>
           <li className="list-group-item d-flex justify-content-between align-items-start">
             <div className="ms-2 me-auto">
-              <div className="fw-bold">username</div>
+              <div className="fw-bold">{item.reviewAuthor}</div>
               {item.reviewDescription}
             </div>
             <span className="badge bg-primary rounded-pill">
@@ -156,7 +192,52 @@ const ProductDetails = () => {
             </span>
           </li>
         </ul>
-      ))}
+      ))} */}
+
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="exampleModalLabel">
+                Delete Card
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              You are about to permanently delete {productData.productName} card
+              , are you sure?
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                data-bs-dismiss="modal"
+                onClick={handleProductDelete}
+                type="button"
+                className="btn btn-primary"
+              >
+                Yes , I`m sure !
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </Fragment>
   );
 };

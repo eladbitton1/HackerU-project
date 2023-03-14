@@ -17,6 +17,7 @@ const MyShop = () => {
     axios
       .get(`/products/my-products/${id}`)
       .then(async (res) => {
+        // console.log(res.data)
         initialProductCardsArray = res.data;
         setProductCardsArray(initialProductCardsArray);
         
@@ -37,6 +38,7 @@ const MyShop = () => {
               key={"product" + item._id}
               name={item.productName}
               desc={item.productDescription}
+              price = {item.productPrice}
               id={item._id}
             />
           ))}

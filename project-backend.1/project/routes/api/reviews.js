@@ -43,6 +43,7 @@ router.post("/:id", authMiddleware, async (req, res) => {
     const validatedValue = await validateNewReviewSchema(req.body);
     const userData = await createNewReview(
       validatedValue.productName,
+      validatedValue.reviewAuthor,
       validatedValue.reviewDescription,
       req.params.id
     );
@@ -60,6 +61,7 @@ router.patch("/", authMiddleware, allowAccessMiddleware, async (req, res) => {
       await updateReviewByID(
         validatedValue.id,
         validatedValue.productName,
+        validatedValue.reviewAuthor,
         validatedValue.reviewDescription
       );
     } else {

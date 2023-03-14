@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import "./productCard.scss";
 
-const ProductCard = ({ name, desc, id, onDelete }) => {
+const ProductCard = ({ name, desc,price , id, onDelete }) => {
   const history = useHistory();
   const [data, setData] = useState([]);
   const userInfo = useSelector((state) => state.auth.userData);
@@ -48,6 +48,7 @@ const ProductCard = ({ name, desc, id, onDelete }) => {
           <div className="card-body">
             <h5 className="card-title">{name}</h5>
             <p className="card-text">{desc}</p>
+            <p className="card-text">{price} $</p>
           </div>
           <div className="card-body">
             <NavLink

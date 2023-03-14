@@ -11,6 +11,7 @@ const CreateProduct = () => {
   const [productInfo, setProductInfo] = useState({
     productName: "",
     productDescription: "",
+    productPrice:"",
     productCategory: "",
   });
 
@@ -73,6 +74,19 @@ const CreateProduct = () => {
             className="form-control"
             id="productDescription"
             placeholder="Product Description"
+            onChange={handleUserInputChange}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="productPrice" className="form-label">
+            Product Price
+          </label>
+          <input
+            type="number"
+            className="form-control"
+            id="productPrice"
+            placeholder="Product Price"
             onChange={handleUserInputChange}
           />
         </div>

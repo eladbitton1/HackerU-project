@@ -3,7 +3,7 @@ import ProductImgs from "../productImgs/productImgs";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-const ShowAllProducts = ({ name, desc, id }) => {
+const ShowAllProducts = ({ name, desc,price , id }) => {
   const history = useHistory();
   const [data, setData] = useState([]);
   const userInfo = useSelector((state) => state.auth.userData);
@@ -42,6 +42,7 @@ const ShowAllProducts = ({ name, desc, id }) => {
           <div className="card-body">
             <h5 className="card-title">{name}</h5>
             <p className="card-text">{desc}</p>
+            <p className="card-text">{price} $</p>
           </div>
           <div className="card-body">
             <button

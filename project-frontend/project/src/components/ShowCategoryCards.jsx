@@ -81,6 +81,7 @@ const ShowCategoryCards = () => {
             label={item.label}
             image={item.image.url}
             desc={item.description}
+            
             url={item.url}
           />
         ))}

@@ -11,11 +11,11 @@ const productsSchema = new Schema({
     default: categoryEnum[0],
     required: true,
   },
+  productPrice :{type: Number ,required: true  },
   productImg: { type: String },
-  productLikes:{ type: Number },
-  ownerId: { type: Schema.Types.ObjectId, ref: "users", ref:"googleUsers"  },
+  productLikes: { type: Number },
+  ownerId: { type: Schema.Types.ObjectId, ref: "users", ref: "googleUsers" },
 });
-
 
 const Products = mongoose.model("products", productsSchema);
 
@@ -23,6 +23,7 @@ const createNewProduct = (
   productName,
   productDescription,
   productCategory,
+  productPrice,
   productImg,
   productLikes,
   ownerId
@@ -31,6 +32,7 @@ const createNewProduct = (
     productName,
     productDescription,
     productCategory,
+    productPrice,
     productImg,
     productLikes,
     ownerId,
@@ -42,10 +44,10 @@ const showAllProducts = () => {
   return Products.find({});
 };
 const showUserProducts = (id) => {
-  return Products.find({ownerId:id});
+  return Products.find({ ownerId: id });
 };
 const showProductByCatergory = (catergory) => {
-  return Products.find({productCategory:catergory});
+  return Products.find({ productCategory: catergory });
 };
 
 const showProductByID = (id) => {
@@ -57,16 +59,19 @@ const updateProductByID = (
   productName,
   productDescription,
   productCategory,
-  productImg,
-  productLikes
+  productPrice
 ) => {
-  return Products.findByIdAndUpdate(id, {
-    productName,
-    productDescription,
-    productCategory,
-    productImg,
-    productLikes
-  });
+  
+  return Products.findByIdAndUpdate(
+    id,
+    {
+      productName,
+      productDescription,
+      productCategory,
+      productPrice
+    },
+    { new: true }
+  );
 };
 
 const deleteProductByID = (id) => {
@@ -80,5 +85,5 @@ module.exports = {
   updateProductByID,
   deleteProductByID,
   showUserProducts,
-  showProductByCatergory
+  showProductByCatergory,
 };

@@ -5,6 +5,7 @@ const newProductSchema = Joi.object({
   productName: Joi.string().min(2).max(255).required().trim(),
   productDescription: Joi.string().allow("").min(2).trim(),
   productCategory: Joi.string().min(5).max(255).required().trim(),
+  productPrice:Joi.number().greater(-1).integer(),
   productImg: Joi.string().regex(/^http(s?)\:\/\/(\.?)/),
   productLikes: Joi.number().greater(-1).integer()
 });
@@ -13,6 +14,7 @@ const updateProductSchema = Joi.object({
   productName: Joi.string().min(2).max(255).required().trim(),
   productDescription: Joi.string().allow("").min(2).trim(),
   productCategory: Joi.string().min(5).max(15).required().trim(),
+  productPrice:Joi.number().greater(-1).integer(),
   productImg: Joi.string().regex(/^http(s?)\:\/\/(\.?)/),
   productLikes: Joi.number().greater(-1).integer()
 });

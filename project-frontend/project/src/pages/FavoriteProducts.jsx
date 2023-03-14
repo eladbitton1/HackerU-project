@@ -55,13 +55,15 @@ const FavoriteProducts = () => {
       <div className="flex">
         <SideNavbar />
         <div className="row row-cols-1 row-cols-md-2 g-4 my-5">
-          {favProducts.map((item, i) => (
-            <ProductCard
-              key={"product " + i}
-              name={item.productName}
-              desc={item.productDescription}
-              id={item._id}
-            />
+          { favProducts.map((item, i) => (
+            item ? <ProductCard
+            key={"product " + i}
+            name={item.productName}
+            desc={item.productDescription}
+            price = {item.productPrice}
+            id={item._id}
+          /> : null
+            
           ))}
         </div>
       </div>

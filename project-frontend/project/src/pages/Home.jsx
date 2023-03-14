@@ -60,6 +60,7 @@ const HomePage = () => {
               key={item._id}
               name={item.productName}
               desc={item.productDescription}
+              price = {item.productPrice}
               id={item._id}
             />
           ))}
