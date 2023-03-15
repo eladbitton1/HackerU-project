@@ -32,6 +32,10 @@ const removeFavProductByID = (id, favProducts) => {
 const removeGoogleUserFavProductByID = (id, favProducts) => {
   return GoogleUsers.findOneAndUpdate(id, { $pull: { favProducts } });
 };
+const getAllUsers = () => {
+  return Users.find();
+};
+const getAllGoogleUsers = () => GoogleUsers.find();
 
 const createNewUser = (userData) => {
   const newUser = new Users(userData);
@@ -63,9 +67,9 @@ const addProductToGoogleUserFav = (id, productID) => {
   );
 };
 // const addProductToGoogleUserFav = (id,favProducts) => GoogleUsers.findOneAndUpdate(id,{$push:{favProducts}})
-const findUserById = (id) => Users.findOne({ _id:id });
+const findUserById = (id) => Users.findOne({ _id: id });
 
-const findGoogleUserById = (id) => GoogleUsers.findOne({ _id:id });
+const findGoogleUserById = (id) => GoogleUsers.findOne({ _id: id });
 
 module.exports = {
   findUserByEmail,
@@ -81,4 +85,6 @@ module.exports = {
   addProductToGoogleUserFav,
   findUserById,
   findGoogleUserById,
+  getAllUsers,
+  getAllGoogleUsers,
 };

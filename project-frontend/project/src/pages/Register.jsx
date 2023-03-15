@@ -26,6 +26,7 @@ const Register = () => {
     ev.preventDefault();
 
     const { error } = validate(userInput, registerSchema);
+   
     nameRef.current.className = " form-control is-valid ";
     passwordRef.current.className = " form-control is-valid ";
     emailRef.current.className = " form-control is-valid ";
@@ -60,7 +61,7 @@ const Register = () => {
             errorMsgs += ` ${errorItem.context.label} cant be empty ,`;
             break;
           case "string.regex.base":
-            errorMsgs += ` ${errorItem.context.label} must be from letters A-Z only ,`;
+            errorMsgs += ` ${errorItem.context.label} Failed to match the required pattern ,`;
             break;
           case "string.email":
             errorMsgs += ` ${errorItem.context.label} is invalid ,`;
@@ -87,17 +88,26 @@ const Register = () => {
     axios
       .post("/auth/register", userInput)
       .then(async (res) => {
-        console.log(res);
+        toast.success('User Succesfully registered ', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
         history.push("/")
       })
       .catch((err) => {
         console.log(err);
 
-        if (err.response.data === "User already registered.") {
+        if (err.response.data.error === "try different email") {
           emailRef.current.className = " form-control is-invalid ";
           showErrMsgEmail.current.className = "text-danger";
           showErrMsgEmail.current.innerText = "Email already registered !";
-          toast.error(`${err.response.data}`, {
+          toast.error(`${err.response.data.error}`, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -184,8 +194,8 @@ const Register = () => {
             Please enter a valid Password !
           </div>
           <div id="passwordlHelp" className="form-text">
-            Password must be 6-21 characters long and must include an uppercase
-            and lowercase letter and a number
+            Password must be 8-21 characters long and must include an uppercase
+            ,lowercase letter , a number and a special symbol - !@#$%^&*
           </div>
         </div>
         

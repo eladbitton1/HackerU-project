@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { authActions } from "store/auth";
 import NavlinksHandler from "partial/NavlinksHandler";
+import { Fragment, useState, useEffect, useRef } from "react";
 
 let links = [
   {
@@ -13,6 +14,12 @@ let links = [
 ];
 
 let authLinks = {
+  isAdmin: [
+    {
+      label: "Admin",
+      url: "admin",
+    },
+  ],
   isLoggedIn: [
     {
       label: "Welcome , ",
@@ -40,6 +47,14 @@ const Navbar = () => {
   const history = useHistory();
   const loggedIn = useSelector((state) => state.auth.loggedIn);
   const userInfo = useSelector((state) => state.auth.userData);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (loggedIn === true && userInfo.isAdmin === true) {
+      setIsAdmin(true);
+    }
+  }, [loggedIn]);
+  // console.log(userInfo)
   // const handleProfileBtnClick = () => {
   //   history.push("/my-account");
   // };
@@ -48,7 +63,9 @@ const Navbar = () => {
     dispatch(authActions.logout());
     history.push("/");
   };
-
+  const handleAdminBtnClick = () => {
+    history.push("/admin");
+  };
   return (
     <nav className="navbar navbar-expand-lg bg-light">
       <div className="container-fluid">
@@ -78,6 +95,17 @@ const Navbar = () => {
           </ul>
         </div>
         <form className="d-flex" role="search">
+          
+          {/* {console.log(userInfo.isAdmin)} */}
+          {isAdmin ?
+            authLinks.isAdmin.map((item, idx) => (
+              <button
+                type="button"
+                key={"admin -" + idx}
+                className="btn"
+                onClick={handleAdminBtnClick}
+              >{item.label}</button>
+            )) : ""}
           {loggedIn
             ? authLinks.isLoggedIn.map((item, idx) => (
                 <button
@@ -88,7 +116,7 @@ const Navbar = () => {
                     item.label === "Logout"
                       ? handleLogoutBtnClick
                       : () => {
-                          history.push(item.url +"/"+ userInfo.id);
+                          history.push(item.url + "/" + userInfo.id);
                         }
                   }
                 >

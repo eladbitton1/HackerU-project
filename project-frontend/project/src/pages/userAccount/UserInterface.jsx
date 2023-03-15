@@ -1,8 +1,8 @@
 import SideNavbar from "components/sideNavbar/SideNavbar";
 import Profile from "components/profile/Profile";
 import { Fragment } from "react";
-import "./userAccountStyle.scss";
-const UserAccount = () => {
+import "./UserInterface.scss";
+const UserInterface = () => {
   return (
     <div className="style">
       <SideNavbar />
@@ -11,4 +11,4 @@ const UserAccount = () => {
   );
 };
 
-export default UserAccount;
+export default UserInterface;

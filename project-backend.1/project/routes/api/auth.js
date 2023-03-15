@@ -21,6 +21,8 @@ const {
   addProductToGoogleUserFav,
   findUserById,
   findGoogleUserById,
+  getAllUsers,
+  getAllGoogleUsers,
 } = require("../../models/users.model");
 const authMiddleware = require("../../middleware/auth.middleware");
 const allowAccessMiddleware = require("../../middleware/allowModify.middleware");
@@ -168,7 +170,20 @@ router.patch("/addtofav/:id", async (req, res) => {
     //   throw " you already added this product to your favorites";
     // }
   } catch (error) {
-    debug(error);
+    // debug(error);
+    res.status(400).json({ error });
+  }
+});
+
+router.get("/all-users", async (req, res) => {
+  try {
+    const getAllGoogleUsersInDB = await getAllGoogleUsers()
+    // debug(getAllGoogleUsersInDB)
+    const getAllUsersinDB = await getAllUsers()
+    // const getAllGoogleUsersinDB = getAllGoogleUsers();
+    // debug(getAllGoogleUsersinDB);
+    res.status(200).json([getAllGoogleUsersInDB,getAllUsersinDB]);
+  } catch (error) {
     res.status(400).json({ error });
   }
 });
@@ -213,7 +228,7 @@ router.post("/login", async (req, res) => {
     const validatedValue = await validateLoginSchema(req.body);
     const user = await findUserByEmail(validatedValue.email);
     if (!user) {
-      throw "no user logged in / no user in data base";
+      throw "Could not find user in database , please make sure your input is valid.";
     }
     const isEqual = await cmpHash(validatedValue.password, user.password);
     if (!isEqual) {

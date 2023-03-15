@@ -9,7 +9,7 @@ import AboutusPage from "pages/AboutUs";
 import Register from "pages/Register";
 import Categories from "./pages/Categories";
 import ProductDetails from "./pages/productDetails/ProductDetails";
-import UserAccount from "./pages/userAccount/UserAccount";
+// import UserInterface from "./pages/userAccount/UserInterface";
 import Login from "pages/Login";
 import Loading from "pages/Loading";
 import AvatarImg from "components/avatarImg/AvatarImg";
@@ -22,8 +22,10 @@ import FavoriteProducts from "./pages/FavoriteProducts"
 import AuthGuard from "components/AuthGuard";
 import ForgotPassword from "./pages/ForgotPassword"
 import ResetPassword from "./pages/ResetPassword"
+import Admin from "./pages/admin/Admin"
 import PageNotFound from "pages/PageNotFound";
 import { ToastContainer } from "react-toastify";
+import UserInterface from "./pages/userAccount/UserInterface";
 
 const App = () => {
   const autoLoginFunction = useAutoLogin();
@@ -63,11 +65,12 @@ const App = () => {
           <Route path="/update-profile-pic/:id" component={UpdateProfilePic} />
           <Route path="/aboutus" component={AboutusPage} />
           <Route path="/login" component={Login} />
+          <Route path="/admin" component={Admin} />
           <Route path="/forgot-password" component={ForgotPassword} />
           <Route path="/resetpassword/:token" component={ResetPassword} />
           <Route path="/register" component={Register} />
           <Route path="/loading" component={Loading} />
-          <AuthGuard path="/my-account/:id" component={UserAccount} />
+          <AuthGuard path="/my-account/:id" component={UserInterface} />
           <Route path="*" component={PageNotFound}></Route>
         </Switch>
       )}

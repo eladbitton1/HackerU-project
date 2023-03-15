@@ -4,47 +4,49 @@ import axios from "axios";
 // import ProductCard from "../components/productCard/productCard";
 // import ProductImgs from "../components/productImgs/productImgs";
 import ShowAllProducts from "../components/showAllProducts/ShowAllProducts";
+import GetAllProducts from "../components/admin/GetAllProducts"
 let initialProductCardsArray = [];
 const HomePage = () => {
-  const [productCardsArray, setProductCardsArray] = useState(
-    initialProductCardsArray
-  );
-  const [findInput, setFindInput] = useState("");
-  useEffect(() => {
-    axios
-      .get(`/products`)
-      .then(async (res) => {
-        initialProductCardsArray = res.data;
-        setProductCardsArray(initialProductCardsArray);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // const [productCardsArray, setProductCardsArray] = useState(
+  //   initialProductCardsArray
+  // );
+  // const [findInput, setFindInput] = useState("");
+  // useEffect(() => {
+  //   axios
+  //     .get(`/products`)
+  //     .then(async (res) => {
+  //       initialProductCardsArray = res.data;
+  //       setProductCardsArray(initialProductCardsArray);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
-  useEffect(() => {
-    let regex = new RegExp(findInput, "i");
-    let productCardsArrayCopy = JSON.parse(
-      JSON.stringify(initialProductCardsArray)
-    );
+  // useEffect(() => {
+  //   let regex = new RegExp(findInput, "i");
+  //   let productCardsArrayCopy = JSON.parse(
+  //     JSON.stringify(initialProductCardsArray)
+  //   );
 
-    productCardsArrayCopy = productCardsArrayCopy.filter((item) =>
-      // console.log(item)
-      regex.test(item.productName)
-    );
+  //   productCardsArrayCopy = productCardsArrayCopy.filter((item) =>
+  //     // console.log(item)
+  //     regex.test(item.productName)
+  //   );
 
-    setProductCardsArray(productCardsArrayCopy);
-  }, [findInput]);
-  const handleFindInputChange = (ev) => {
-    setFindInput(ev.target.value);
-  };
+  //   setProductCardsArray(productCardsArrayCopy);
+  // }, [findInput]);
+  // const handleFindInputChange = (ev) => {
+  //   setFindInput(ev.target.value);
+  // };
 
   return (
     <Fragment>
       <div className="header">
         <h1>Welcome to eShop !</h1>
         <ShowCategoryCards />
-        <div className="form-floating mb-3 my-5">
+        <GetAllProducts></GetAllProducts>
+        {/* <div className="form-floating mb-3 my-5">
           <input
             type="text"
             className="form-control"
@@ -64,7 +66,7 @@ const HomePage = () => {
               id={item._id}
             />
           ))}
-        </div>
+        </div> */}
       </div>
     </Fragment>
   );

@@ -33,7 +33,7 @@ const passwordSchema = Joi.object({
   password: Joi.string()
     .regex(
       new RegExp(
-        "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*() ]).{6,60}$"
+        "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*() ]).{8,60}$"
       )
     )
     .required(),

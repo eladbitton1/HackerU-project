@@ -62,6 +62,9 @@ const Login = () => {
           case "any.empty":
             errorMsgs += ` ${errorItem.context.label} cant be empty ,`;
             break;
+          case "string.regex.base":
+            errorMsgs += ` ${errorItem.context.label} Failed to match the required pattern ,`;
+            break;
           case "string.email":
             errorMsgs += ` ${errorItem.context.label} is invalid ,`;
             break;
@@ -87,7 +90,17 @@ const Login = () => {
       .then(async (res) => {
         localStorage.setItem("token", res.data.token);
         autoLoginFunction(res.data.token);
-        console.log(res)
+        toast.success('Succesfully logged in ', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+        // console.log(res)
 
         history.push("/loading");
       })
@@ -97,7 +110,7 @@ const Login = () => {
           passwordRef.current.className = " form-control ";
           emailRef.current.className = " form-control ";
         }
-        toast.error(`${err.response.data}`, {
+        toast.error(`${err.response.data.error}`, {
           
           position: "top-right",
           autoClose: 5000,
