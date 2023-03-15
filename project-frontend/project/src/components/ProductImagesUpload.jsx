@@ -29,13 +29,24 @@ const ProductImagesUpload = () => {
     ev.preventDefault();
     let formData = new FormData();
     formData.append("productImgs" , image)
+    
 
     
 
     axios
       .post(`/images/productImgs/${id}`, formData)
       .then(async (res) => {
-        console.log(res)
+        // console.log(res)
+        toast.success('Product Created', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
         history.push(`/my-account/${id}`)
       })
       .catch((err) => {

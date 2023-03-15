@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import useAutoLogin from "hooks/useAutoLogin";
 import Navbar from "components/Navbar";
 import HomePage from "./pages/Home";
-import ImagePageTest from "./pages/ImagePageTest";
+// import ImagePageTest from "./pages/ImagePageTest";
 import AboutusPage from "pages/AboutUs";
 import Register from "pages/Register";
 import Categories from "./pages/Categories";
@@ -61,7 +61,7 @@ const App = () => {
           <Route path="/edit-product/:id" component={EditProduct} />
           <Route path="/favorite-products/:id" component={FavoriteProducts} />
           <Route path="/product-images/:id" component={ProductImagesUpload} />
-          <Route path="/img-test" component={ImagePageTest} />
+        
           <Route path="/update-profile-pic/:id" component={UpdateProfilePic} />
           <Route path="/aboutus" component={AboutusPage} />
           <Route path="/login" component={Login} />

@@ -11,9 +11,9 @@ import "./productDetails.scss";
 const ProductDetails = () => {
   const history = useHistory();
   const [productData, setProductData] = useState({});
-  const [productReview, setProductReview] = useState({
-    reviewDescription: "",
-  });
+  // const [productReview, setProductReview] = useState({
+  //   reviewDescription: "",
+  // });
   const [data, setData] = useState([]);
   const [reviewsArray, setReviewsArray] = useState([]);
   let { id } = useParams();
@@ -56,36 +56,36 @@ const ProductDetails = () => {
       });
   }, []);
 
-  const handleUserInputChange = (ev) => {
-    let newUserInput = JSON.parse(JSON.stringify(productReview));
-    if (newUserInput.hasOwnProperty(ev.target.id)) {
-      newUserInput[ev.target.id] = ev.target.value;
-      setProductReview(newUserInput);
-      // console.log(productReview);
-    }
-  };
+  // const handleUserInputChange = (ev) => {
+  //   let newUserInput = JSON.parse(JSON.stringify(productReview));
+  //   if (newUserInput.hasOwnProperty(ev.target.id)) {
+  //     newUserInput[ev.target.id] = ev.target.value;
+  //     setProductReview(newUserInput);
+  //     // console.log(productReview);
+  //   }
+  // };
 
-  const handleSubmitClick = (ev) => {
-    // console.log("here");
-    ev.preventDefault();
-    // let formData = new FormData();
-    // formData.append("productName", productData.productName );
-    // formData.append("reviewDescription", productReview);
-    // console.log(formData);
+  // const handleSubmitClick = (ev) => {
+  //   // console.log("here");
+  //   ev.preventDefault();
+  //   // let formData = new FormData();
+  //   // formData.append("productName", productData.productName );
+  //   // formData.append("reviewDescription", productReview);
+  //   // console.log(formData);
 
-    let data = {
-      productName: productData.productName,
-      reviewAuthor: userInfo.name,
-      reviewDescription: productReview.reviewDescription,
-    };
-    // console.log(data);
-    axios
-      .post(`/reviews/${id} `, data)
-      .then(async (res) => {})
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  //   let data = {
+  //     productName: productData.productName,
+  //     reviewAuthor: userInfo.name,
+  //     reviewDescription: productReview.reviewDescription,
+  //   };
+  //   // console.log(data);
+  //   axios
+  //     .post(`/reviews/${id} `, data)
+  //     .then(async (res) => {})
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   const handleAddOrRemoveProductFromFav = () => {
     if (!isOnFavorites) {
       axios

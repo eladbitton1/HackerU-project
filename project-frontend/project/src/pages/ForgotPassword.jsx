@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect, Fragment } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+import validate from "../validation/validation";
+import emailSchema from "../validation/email_Validation";
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const history = useHistory();
@@ -14,12 +17,79 @@ const ForgotPassword = () => {
   };
   const handleSubmit = (ev) => {
     ev.preventDefault();
+    const { error } = validate(email, emailSchema);
+    emailRef.current.className = " form-control is-valid ";
+    showErrMsgEmail.current.className = "visually-hidden";
+    showErrMsgEmail.current.innerText = "Please enter a valid Email !";
+
+    if (error) {
+      let errorMsgs = "";
+      for (let errorItem of error.details) {
+        
+        if (errorItem.context.label === "Email") {
+          emailRef.current.className = " form-control is-invalid ";
+          showErrMsgEmail.current.className = "text-danger";
+        }
+
+        switch (errorItem.type) {
+          case "string.min":
+            errorMsgs += ` ${errorItem.context.label} length must be at least ${errorItem.context.limit} characters long, `;
+            break;
+          case "string.max":
+            errorMsgs += ` ${errorItem.context.label} length must be at least ${errorItem.context.limit} characters long, `;
+            break;
+          case "any.empty":
+            errorMsgs += ` ${errorItem.context.label} cant be empty ,`;
+            break;
+          case "string.regex.base":
+            errorMsgs += ` ${errorItem.context.label} Failed to match the required pattern ,`;
+            break;
+          case "string.email":
+            errorMsgs += ` ${errorItem.context.label} is invalid ,`;
+            break;
+          default:
+            errorMsgs += " something went wrong , ";
+            break;
+        }
+      }
+
+      toast.error(errorMsgs, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      return;
+    }
     axios
       .post("/auth/forgotpassword", { email })
       .then(({ data }) => {
+        toast.success('Check email / spam email ', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
         console.log(data);
       })
       .catch((err) => {
+        toast.error("an error has occurd", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         console.log(err);
       });
   };
@@ -32,7 +102,7 @@ const ForgotPassword = () => {
             type="email"
             className="form-control"
             id="email"
-            placeholder="name@example.com"
+            placeholder="Enter your Email adress"
             onChange={handleEmailChange}
             ref={emailRef}
           />

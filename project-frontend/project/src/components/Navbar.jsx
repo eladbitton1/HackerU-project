@@ -61,6 +61,7 @@ const Navbar = () => {
   const handleLogoutBtnClick = () => {
     localStorage.clear();
     dispatch(authActions.logout());
+    setIsAdmin(false)
     history.push("/");
   };
   const handleAdminBtnClick = () => {

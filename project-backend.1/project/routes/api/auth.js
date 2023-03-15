@@ -177,12 +177,12 @@ router.patch("/addtofav/:id", async (req, res) => {
 
 router.get("/all-users", async (req, res) => {
   try {
-    const getAllGoogleUsersInDB = await getAllGoogleUsers()
+    const getAllGoogleUsersInDB = await getAllGoogleUsers();
     // debug(getAllGoogleUsersInDB)
-    const getAllUsersinDB = await getAllUsers()
+    const getAllUsersinDB = await getAllUsers();
     // const getAllGoogleUsersinDB = getAllGoogleUsers();
     // debug(getAllGoogleUsersinDB);
-    res.status(200).json([getAllGoogleUsersInDB,getAllUsersinDB]);
+    res.status(200).json([getAllGoogleUsersInDB, getAllUsersinDB]);
   } catch (error) {
     res.status(400).json({ error });
   }
@@ -199,7 +199,9 @@ router.get("/getfavproductsarray/:id", async (req, res) => {
     if (findUserQueryById) {
       res.json(findUserQueryById.favProducts);
     }
-    res.json(findGoogleUserQueryById.favProducts);
+    if (findGoogleUserQueryById) {
+      res.json(findGoogleUserQueryById.favProducts);
+    }
   } catch (error) {
     res.status(400).json({ error });
   }

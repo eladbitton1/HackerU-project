@@ -101,7 +101,7 @@ const Register = () => {
         history.push("/")
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
 
         if (err.response.data.error === "try different email") {
           emailRef.current.className = " form-control is-invalid ";

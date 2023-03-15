@@ -32,20 +32,40 @@ const UpdateProfilePic = () => {
     axios
       .delete(`images/deleteAvatarImg/${id}`)
       .then(async (res) => {
-        console.log(res);
+        // console.log(res);
+        
         history.push(`/my-account/${id}`);
       })
       .catch((err) => {
-        console.log(err);
+        
+        // console.log(err);
       });
 
     axios
       .post(`/images/${id}`, formData)
       .then(async (res) => {
-        
+        toast.success('Profile picture updated ! ', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(`${err.response.data.error}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        // console.log(err);
       });
   };
 

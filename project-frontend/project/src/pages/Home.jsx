@@ -1,11 +1,11 @@
 import { Fragment, useState, useEffect } from "react";
 import ShowCategoryCards from "../components/ShowCategoryCards";
-import axios from "axios";
+// import axios from "axios";
 // import ProductCard from "../components/productCard/productCard";
 // import ProductImgs from "../components/productImgs/productImgs";
-import ShowAllProducts from "../components/showAllProducts/ShowAllProducts";
+// import ShowAllProducts from "../components/showAllProducts/ShowAllProducts";
 import GetAllProducts from "../components/admin/GetAllProducts"
-let initialProductCardsArray = [];
+// let initialProductCardsArray = [];
 const HomePage = () => {
   // const [productCardsArray, setProductCardsArray] = useState(
   //   initialProductCardsArray

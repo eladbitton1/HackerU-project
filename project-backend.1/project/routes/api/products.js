@@ -100,13 +100,17 @@ router.post("/", authMiddleware, async (req, res) => {
 });
 router.put("/:id", async (req, res) => {
   try {
+   
     // debug(req.body);
     let id = req.params.id;
-    let productName = req.body.productData.productName;
-    let productDescription = req.body.productData.productDescription;
-    let productCategory = req.body.productData.productCategory;
-    let productPrice = req.body.productData.productPrice
+    
+    let productName = req.body.productInfo.productName;
+    
+    let productDescription = req.body.productInfo.productDescription;
+    let productCategory = req.body.productInfo.productCategory;
+    let productPrice = req.body.productInfo.productPrice
     // debug(id)
+    
     const updateProductWithID = await updateProductByID(
       id,
       productName,
@@ -114,6 +118,7 @@ router.put("/:id", async (req, res) => {
       productCategory,
       productPrice
     );
+    debug(updateProductWithID)
     // debug(updateProductWithID)
     // const validatedValue = await validateUpdateProductSchema(req.body);
     // const productData = await showProductByID(validatedValue.id);
@@ -130,7 +135,7 @@ router.put("/:id", async (req, res) => {
     // } else {
     //   throw "unauthorized";
     // }
-    res.json("updated");
+    res.json("Product updated");
   } catch (err) {
     res.status(400).json({ error: err });
   }
