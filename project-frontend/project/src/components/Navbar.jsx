@@ -1,10 +1,10 @@
-// import { Fragment } from "react";
+
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { authActions } from "store/auth";
 import NavlinksHandler from "partial/NavlinksHandler";
-import { Fragment, useState, useEffect, useRef } from "react";
+import {  useState, useEffect, } from "react";
 
 let links = [
   {
@@ -54,10 +54,7 @@ const Navbar = () => {
       setIsAdmin(true);
     }
   }, [loggedIn]);
-  // console.log(userInfo)
-  // const handleProfileBtnClick = () => {
-  //   history.push("/my-account");
-  // };
+ 
   const handleLogoutBtnClick = () => {
     localStorage.clear();
     dispatch(authActions.logout());
@@ -97,7 +94,7 @@ const Navbar = () => {
         </div>
         <form className="d-flex" role="search">
           
-          {/* {console.log(userInfo.isAdmin)} */}
+          
           {isAdmin ?
             authLinks.isAdmin.map((item, idx) => (
               <button

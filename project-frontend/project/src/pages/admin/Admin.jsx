@@ -1,11 +1,13 @@
-import { Fragment, useState, useEffect, useRef } from "react";
+import { Fragment} from "react";
 import GetAllUsers from "../../components/admin/GetAllUsers";
-// import ShowAllProducts from "../../components/showAllProducts/ShowAllProducts"
+
 import GetAllProducts from "../../components/admin/GetAllProducts";
 const Admin = () => {
   return (
     <Fragment>
+      <h1>Registered users :</h1>
       <GetAllUsers></GetAllUsers>
+       <h1>All products:</h1>
       <GetAllProducts></GetAllProducts>
     </Fragment>
   );

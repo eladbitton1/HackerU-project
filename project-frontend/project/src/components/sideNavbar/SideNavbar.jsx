@@ -1,5 +1,4 @@
-import { Fragment } from "react";
-import { NavLink } from "react-router-dom";
+
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { authActions } from "store/auth";
@@ -24,18 +23,13 @@ let links = [
 ];
 
 const SideNavbar = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const loggedIn = useSelector((state) => state.auth.loggedIn);
+  
+  
   const userInfo = useSelector((state) => state.auth.userData);
   let tokenFromLS = localStorage.getItem("token");
   let userObj = jwt_decode(tokenFromLS);
  
-  const handleLogoutBtnClick = () => {
-    localStorage.clear();
-    dispatch(authActions.logout());
-    history.push("/");
-  };
+  
 
   return (
     <nav className="navbar  navbar-expand-lg bg-light sideNavBar">

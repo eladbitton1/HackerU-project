@@ -12,7 +12,7 @@ import ProductDetails from "./pages/productDetails/ProductDetails";
 // import UserInterface from "./pages/userAccount/UserInterface";
 import Login from "pages/Login";
 import Loading from "pages/Loading";
-import AvatarImg from "components/avatarImg/AvatarImg";
+
 import CreateProduct from "./pages/CreateProduct";
 import ProductImagesUpload from "./components/ProductImagesUpload";
 import UpdateProfilePic from "./pages/ProfilePic";

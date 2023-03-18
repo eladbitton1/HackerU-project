@@ -1,8 +1,8 @@
 import { Fragment, useState, useEffect } from "react";
-import ShowCategoryCards from "../components/ShowCategoryCards";
+
 import axios from "axios";
 import ProductCard from "../components/productCard/productCard";
-import ProductImgs from "../components/productImgs/productImgs";
+
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 let initialProductCardsArray = [];
 const Categories = () => {
@@ -31,7 +31,7 @@ const Categories = () => {
     );
 
     productCardsArrayCopy = productCardsArrayCopy.filter((item) =>
-    // console.log(item)
+    
       regex.test(item.productName)
     );
 

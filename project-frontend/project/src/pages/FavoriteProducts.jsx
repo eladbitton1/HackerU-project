@@ -1,8 +1,7 @@
 import { Fragment, useState, useEffect } from "react";
-// import ShowCategoryCards from "../../components/ShowCategoryCards";
-// import axios from "axios";
+
 import ProductCard from "../components/productCard/productCard";
-// import ProductImgs from "../../components/productImgs/productImgs";
+
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import SideNavbar from "components/sideNavbar/SideNavbar";
 import axios from "axios";
@@ -21,9 +20,8 @@ const FavoriteProducts = () => {
     axios
       .get(`/auth/getfavproductsarray/${id}`)
       .then(async (res) => {
-        // console.log(res.data)
         
-        initialProductCardsArray = res.data;
+        initialProductCardsArray = res.data.favProducts
         setProductCardsArray(initialProductCardsArray);
       })
       .catch((err) => {
@@ -45,10 +43,7 @@ const FavoriteProducts = () => {
   },[initialProductCardsArray]);
 
 
-  //  console.log(productCardsArray)
-  //   useEffect(() => {
-
-  //   }, [productCardsArray]);
+  
 
   return (
     <Fragment>

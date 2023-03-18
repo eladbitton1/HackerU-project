@@ -1,14 +1,14 @@
-import { Fragment, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+
 import "./avatarImgStyle.scss";
 
 const AvatarImg = () => {
   const [data, setData] = useState([]);
   let { id } = useParams();
-  const history = useHistory();
+  
   const userInfo = useSelector((state) => state.auth.userData);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const AvatarImg = () => {
       .get(`/images/avatarImg/${id}`)
       .then((res) => {
         setData(res.data);
-        // history.push(`/my-account/${id}`);
+        
         
       })
       .catch((err) => {

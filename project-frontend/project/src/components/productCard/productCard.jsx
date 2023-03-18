@@ -1,30 +1,23 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+
 import { Fragment, useState, useEffect } from "react";
 import ProductImgs from "../productImgs/productImgs";
-import { useHistory } from "react-router-dom";
+
 import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import "./productCard.scss";
 
 const ProductCard = ({ name, desc,price , id, onDelete }) => {
-  const history = useHistory();
+  
   const [data, setData] = useState([]);
   const userInfo = useSelector((state) => state.auth.userData);
   let isOnFavorites = false;
-  // const handleMoreDetailsBtnClick = () => {
-  //   history.push(`card-details/${id}`);
-  // };
-  // const handleDeleteBtnClick = () => {
-  //   onDelete(id);
-  // };
+  
   useEffect(() => {
     axios
       .get(`/auth/getfavproductsarray/${userInfo.id}`)
       .then(async (res) => {
-        setData(res.data);
+        setData(res.data.favProducts);
       })
       .catch((err) => {
         console.log(err);

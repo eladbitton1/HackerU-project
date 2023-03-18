@@ -5,9 +5,7 @@ import validate from "../validation/validation";
 import { toast } from "react-toastify";
 
 import productSchema from "validation/product_Validation";
-// import cardCreationSchema from "../validation/bizCardCreation_Validation";
-// import validate from "validation/validation";
-// import { toast } from "react-toastify";
+
 
 const EditProduct = () => {
   const history = useHistory();
@@ -25,6 +23,7 @@ const EditProduct = () => {
     productPrice: "",
     productCategory: "",
   });
+  const [isFormValid, setIsFormValid] = useState(false);
   let { id } = useParams();
   useEffect(() => {
     productNameRef.current.focus();
@@ -34,8 +33,7 @@ const EditProduct = () => {
     (async () => {
       try {
         let { data } = await axios.get(`/products/getbyid/${id}`);
-        // console.log(data);
-        // console.log(data);
+        
         setProductInfo({
           productName: data.productName,
           productDescription: data.productDescription,
@@ -51,6 +49,9 @@ const EditProduct = () => {
     if (productDetailsinput.hasOwnProperty(ev.target.id)) {
       productDetailsinput[ev.target.id] = ev.target.value;
       setProductInfo(productDetailsinput);
+    }
+    if(productInfo.productPrice){
+      setIsFormValid(true)
     }
   };
 
@@ -69,7 +70,7 @@ const EditProduct = () => {
     if (error) {
       let errorMsgs = "";
       for (let errorItem of error.details) {
-        // console.log(errorItem);
+        
         if (errorItem.context.label === "productName") {
           productNameRef.current.className = " form-control is-invalid ";
           showErrMsgProductName.current.className = "text-danger";
@@ -138,8 +139,7 @@ const EditProduct = () => {
         theme: "light",
       });
       history.push("/");
-      // console.log(data);
-      // history.push("/cardspanel");
+      
     } catch (err) {
       toast.error(`${err.response.data}`, {
         position: "top-right",
@@ -150,16 +150,7 @@ const EditProduct = () => {
         draggable: true,
         progress: undefined,
       });
-      // console.log(err);
-      // toast.error("Something went wrong", {
-      //   position: "top-right",
-      //   autoClose: 5000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      // });
+      
     }
   };
 
@@ -177,14 +168,12 @@ const EditProduct = () => {
           value={productInfo.productName}
           onChange={handleProductDetailsInputChange}
           ref={productNameRef}
-          // ref={titleRef}
+          
         />
         <div ref={showErrMsgProductName} className="visually-hidden">
           Please enter a valid product Name !
         </div>
-        {/* <div ref={showErrMsgTitle} className="visually-hidden">
-          Please enter a valid Title !
-        </div> */}
+        
       </div>
 
       <div className="mb-3">
@@ -198,14 +187,12 @@ const EditProduct = () => {
           value={productInfo.productDescription}
           onChange={handleProductDetailsInputChange}
           ref={productDescriptionRef}
-          // ref={subTitleRef}
+          
         />
         <div ref={showErrMsgProductDescription} className="visually-hidden">
           Please enter a valid Product Description !
         </div>
-        {/* <div ref={showErrMsgSubTitle} className="visually-hidden">
-          Please enter a valid sub-title !
-        </div> */}
+        
       </div>
       <div className="mb-3">
         <label htmlFor="productPrice" className="form-label">
@@ -236,7 +223,7 @@ const EditProduct = () => {
           aria-label="Default select example"
           onChange={handleProductDetailsInputChange}
           ref={productCategoryRef}
-          // onChange={handleUserInputChange}
+          
         >
           <option defaultValue>Choose a Category</option>
           <option value="Household supply">Household supply</option>
@@ -250,7 +237,7 @@ const EditProduct = () => {
           Please choose a Category !
         </div>
       </div>
-      <button type="submit" className="btn btn-primary">
+      <button disabled={!isFormValid} type="submit" className="btn btn-primary">
         Submit
       </button>
     </form>

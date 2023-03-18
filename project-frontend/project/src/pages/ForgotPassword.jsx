@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect, Fragment } from "react";
-import { useHistory } from "react-router-dom";
+
 import axios from "axios";
 import { toast } from "react-toastify";
 import validate from "../validation/validation";
 import emailSchema from "../validation/email_Validation";
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const history = useHistory();
+  const [isFormValid, setIsFormValid] = useState(false);
+  
   const showErrMsgEmail = useRef();
   const emailRef = useRef();
   useEffect(() => {
@@ -14,6 +15,9 @@ const ForgotPassword = () => {
   }, []);
   const handleEmailChange = (ev) => {
     setEmail(ev.target.value);
+    if(email){
+      setIsFormValid(true)
+    }
   };
   const handleSubmit = (ev) => {
     ev.preventDefault();
@@ -111,7 +115,7 @@ const ForgotPassword = () => {
           </div>
           <label htmlFor="email">Email address</label>
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button disabled={!isFormValid} type="submit" className="btn btn-primary">
           Send mail
         </button>
       </form>

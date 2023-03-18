@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+
 import { Link } from "react-router-dom";
 import { Fragment } from "react";
 import  "./cardsStyle.scss"

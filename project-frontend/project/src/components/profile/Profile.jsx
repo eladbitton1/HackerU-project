@@ -1,11 +1,9 @@
-import { Fragment } from "react";
-import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+
+import { useSelector} from "react-redux";
 import { useHistory } from "react-router-dom";
-import { authActions } from "store/auth";
-import NavlinksHandler from "partial/NavlinksHandler";
+
 import "./profileStyle.scss";
-import AvatarImg from "components/avatarImg/AvatarImg";
+
 const Profile = () => {
   const history = useHistory()
   const userInfo = useSelector((state) => state.auth.userData);

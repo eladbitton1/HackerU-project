@@ -18,7 +18,7 @@ const Register = () => {
     email: "",
     password: "",
   });
-
+  const [isFormValid, setIsFormValid] = useState(false);
   useEffect(() => {
     nameRef.current.focus();
   }, []);
@@ -84,7 +84,7 @@ const Register = () => {
 
       return;
     }
-
+    
     axios
       .post("/auth/register", userInput)
       .then(async (res) => {
@@ -101,7 +101,7 @@ const Register = () => {
         history.push("/")
       })
       .catch((err) => {
-        // console.log(err);
+        
 
         if (err.response.data.error === "try different email") {
           emailRef.current.className = " form-control is-invalid ";
@@ -125,6 +125,9 @@ const Register = () => {
     if (newUserInput.hasOwnProperty(ev.target.id)) {
       newUserInput[ev.target.id] = ev.target.value;
       setUserInput(newUserInput);
+    }
+    if(userInput.password){
+      setIsFormValid(true)
     }
   };
   return (
@@ -200,7 +203,7 @@ const Register = () => {
         </div>
         
 
-        <button type="submit" className="btn btn-primary">
+        <button disabled={!isFormValid} type="submit" className="btn btn-primary">
           Register
         </button>
       </form>

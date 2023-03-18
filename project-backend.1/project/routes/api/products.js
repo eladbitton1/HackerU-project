@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/my-products/:id", async (req, res) => {
+router.get("/my-products/:id",authMiddleware,allowAccessMiddleware, async (req, res) => {
   try {
     const showMyProducts = await showUserProducts(req.params.id);
     debug(showMyProducts)
@@ -59,11 +59,11 @@ router.get("/getbyid/:id", async (req, res) => {
 });
 
 //GET FAV PRODUCTS
-router.get("/getfavproducts", async (req, res) => {
+router.get("/getfavproducts",authMiddleware,allowAccessMiddleware, async (req, res) => {
   // debug("req.query.productCards " + req.query.productCardsArray);
   try {
     if (!req.query.productCardsArray) {
-      throw " error with DATA";
+      throw " error getting data";
     }
     let userRequest = [];
     for (let item of req.query.productCardsArray) {
@@ -79,7 +79,7 @@ router.get("/getfavproducts", async (req, res) => {
   }
 });
 
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/", authMiddleware,allowAccessMiddleware, async (req, res) => {
   try {
     const validatedValue = await validateNewProductSchema(req.body);
     const userData = await createNewProduct(
@@ -98,7 +98,7 @@ router.post("/", authMiddleware, async (req, res) => {
     debug(err);
   }
 });
-router.put("/:id", async (req, res) => {
+router.put("/:id",authMiddleware,allowAccessMiddleware, async (req, res) => {
   try {
    
     // debug(req.body);
@@ -141,7 +141,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 router.delete(
-  "/:id",
+  "/:id",authMiddleware,allowAccessMiddleware,
   // authMiddleware,
   // allowAccessMiddleware,
   async (req, res) => {

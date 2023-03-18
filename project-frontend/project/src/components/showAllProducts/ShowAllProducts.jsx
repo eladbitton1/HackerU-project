@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect } from "react";
 import ProductImgs from "../productImgs/productImgs";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
 const ShowAllProducts = ({ name, desc,price , id }) => {
   const history = useHistory();
   const [data, setData] = useState([]);
@@ -17,7 +17,8 @@ const ShowAllProducts = ({ name, desc,price , id }) => {
       axios
       .get(`/auth/getfavproductsarray/${userInfo.id}`)
       .then(async (res) => {
-        setData(res.data);
+        
+        setData(res.data.favProducts);
       })
       .catch((err) => {
         console.log(err);
@@ -26,7 +27,9 @@ const ShowAllProducts = ({ name, desc,price , id }) => {
     
   }, []);
   for (let item of data) {
+    
     if (item === id) {
+      
       isOnFavorites = true;
     }
   }

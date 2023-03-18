@@ -20,7 +20,7 @@ const ResetPassword = () => {
     setPassword(newUserInput);
   };
   const handleSubmit = (ev) => {
-    // console.log(password)
+    
 
     ev.preventDefault();
     const { error } = validate(password, passwordSchema);
@@ -80,7 +80,7 @@ const ResetPassword = () => {
           theme: "light",
           });
         history.push("/login")
-        // console.log(data);
+        
       })
       .catch((err) => {
         toast.error("an error has occurd , please try again later", {
@@ -92,7 +92,7 @@ const ResetPassword = () => {
           draggable: true,
           progress: undefined,
         });
-        // console.log(err);
+        
       });
   };
   return (

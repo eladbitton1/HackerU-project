@@ -1,9 +1,7 @@
 import { Fragment } from "react";
-import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { authActions } from "store/auth";
-import NavlinksHandler from "partial/NavlinksHandler";
+
+
+
 import CategoryCards from "./cards/CategoryCards";
 let categories = [
   "Others",
@@ -71,7 +69,7 @@ let cardInfo = [
 ];
 
 const ShowCategoryCards = () => {
-  const history = useHistory();
+  
   return (
     <Fragment>
       <div className="row row-cols-1 row-cols-md-2 g-4">

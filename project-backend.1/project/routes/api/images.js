@@ -38,7 +38,7 @@ const productImgsStorage = multer.diskStorage({
 });
 const uploadMulitpleProductImgs = multer({ storage: productImgsStorage });
 
-router.get("/", async (req, res) => {
+router.get("/",authMiddleware,allowAccessMiddleware, async (req, res) => {
   try {
     const allData = await showAllAvatarImgs();
     res.json(allData);
@@ -69,7 +69,7 @@ router.post(
     }
   }
 );
-router.delete("/deleteAvatarImg/:id", async (req, res) => {
+router.delete("/deleteAvatarImg/:id",authMiddleware, async (req, res) => {
   try {
     const deleteOldAvatarPic = await deleteAvatarImgByID(req.params.id)
     res.json("old image deleted");
@@ -104,7 +104,7 @@ router.post(
   }
 );
 
-router.get("/allProductImgs", async (req, res) => {
+router.get("/allProductImgs",authMiddleware,allowAccessMiddleware, async (req, res) => {
   try {
     const allData = await showAllProductsImgs();
     res.json(allData);
@@ -113,7 +113,7 @@ router.get("/allProductImgs", async (req, res) => {
   }
 });
 
-router.get("/avatarImg/:id", async (req, res) => {
+router.get("/avatarImg/:id",authMiddleware,allowAccessMiddleware, async (req, res) => {
   try {
     const avatarImgData = await showAvatarImgByID(req.params.id);
 

@@ -1,19 +1,18 @@
-import { useState, useRef, useEffect,Fragment } from "react";
+import { useState, useRef, useEffect, Fragment } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import validate from "../validation/validation";
 import loginSchema from "../validation/login_Validation";
 import useAutoLogin from "../hooks/useAutoLogin";
 import { useHistory } from "react-router-dom";
-import LoginWithGoogle from "../components/LoginWithGoogle"
-
+import LoginWithGoogle from "../components/LoginWithGoogle";
 
 const Login = () => {
   const [userInput, setUserInput] = useState({
     email: "",
     password: "",
   });
-
+  const [isFormValid, setIsFormValid] = useState(false);
   const history = useHistory();
 
   const emailRef = useRef();
@@ -29,6 +28,9 @@ const Login = () => {
     let newUserInput = JSON.parse(JSON.stringify(userInput));
     newUserInput[ev.target.id] = ev.target.value;
     setUserInput(newUserInput);
+    if (userInput.password) {
+      setIsFormValid(true);
+    }
   };
 
   const handleSubmit = (ev) => {
@@ -82,15 +84,16 @@ const Login = () => {
         draggable: true,
         progress: undefined,
       });
+      
       return;
     }
-    console.log(userInput)
+    console.log(userInput);
     axios
       .post("/auth/login", userInput)
       .then(async (res) => {
         localStorage.setItem("token", res.data.token);
         autoLoginFunction(res.data.token);
-        toast.success('Succesfully logged in ', {
+        toast.success("Succesfully logged in ", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -99,19 +102,20 @@ const Login = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
-          });
+        });
         // console.log(res)
 
         history.push("/loading");
       })
       .catch((err) => {
-        console.log(err)
-        if(err.response.data === "Invalid email or password."){
-          passwordRef.current.className = " form-control ";
-          emailRef.current.className = " form-control ";
+        
+        if (err.response.data.error === "invalid email/password") {
+          passwordRef.current.className = " form-control is-invalid ";
+          showErrMsgPassword.current.className = "text-danger";
+          emailRef.current.className = " form-control is-invalid ";
+          showErrMsgEmail.current.className = "text-danger";
         }
         toast.error(`${err.response.data.error}`, {
-          
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -122,47 +126,59 @@ const Login = () => {
         });
       });
   };
-  const handleForgotPassWordBtnClick= ()=>{
-    history.push("/forgot-password")
-  }
-  return ( <Fragment>
-    <form onSubmit={handleSubmit}>
-      <h2>Login page</h2>
-      <div className="form-floating mb-3">
-        <input
-          type="email"
-          className="form-control"
-          id="email"
-          placeholder="name@example.com"
-          value={userInput.email}
-          onChange={handleUserInputChange}
-          ref={emailRef}
-        />
-        <div ref={showErrMsgEmail} className="visually-hidden">
-          Please enter a valid Email !
+  const handleForgotPassWordBtnClick = () => {
+    history.push("/forgot-password");
+  };
+  return (
+    <Fragment>
+      <form onSubmit={handleSubmit}>
+        <h2>Login page</h2>
+        <div className="form-floating mb-3">
+          <input
+            type="email"
+            className="form-control"
+            id="email"
+            placeholder="name@example.com"
+            value={userInput.email}
+            onChange={handleUserInputChange}
+            ref={emailRef}
+          />
+          <div ref={showErrMsgEmail} className="visually-hidden">
+            Please enter a valid Email !
+          </div>
+          <label htmlFor="email">Email address</label>
         </div>
-        <label htmlFor="email">Email address</label>
-      </div>
-      <div className="form-floating mb-3">
-        <input
-          type="password"
-          className="form-control"
-          id="password"
-          placeholder="Password"
-          value={userInput.password}
-          ref={passwordRef}
-          onChange={handleUserInputChange}
-        />
-        <div ref={showErrMsgPassword} className="visually-hidden">
-          Please enter a valid Password !
+        <div className="form-floating mb-3">
+          <input
+            type="password"
+            className="form-control"
+            id="password"
+            placeholder="Password"
+            value={userInput.password}
+            ref={passwordRef}
+            onChange={handleUserInputChange}
+          />
+          <div ref={showErrMsgPassword} className="visually-hidden">
+            Please enter a valid Password !
+          </div>
+          <label htmlFor="password">Password</label>
         </div>
-        <label htmlFor="password">Password</label>
-      </div>
-      <button type="submit" className="btn btn-primary">Login</button>
-    </form>
+        <button
+          disabled={!isFormValid}
+          type="submit"
+          className="btn btn-primary"
+        >
+          Login
+        </button>
+      </form>
 
-<LoginWithGoogle/>
-<button className="btn btn-primary " onClick={handleForgotPassWordBtnClick}>Forgot password?</button>
+      <LoginWithGoogle />
+      <button
+        className="btn btn-primary "
+        onClick={handleForgotPassWordBtnClick}
+      >
+        Forgot password?
+      </button>
     </Fragment>
   );
 };

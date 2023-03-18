@@ -1,8 +1,8 @@
 import { Fragment, useState, useEffect } from "react";
-import ShowCategoryCards from "../../components/ShowCategoryCards";
+
 import axios from "axios";
 import ProductCard from "../../components/productCard/productCard";
-import ProductImgs from "../../components/productImgs/productImgs";
+
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import SideNavbar from "components/sideNavbar/SideNavbar";
 import "./myShop.scss";
@@ -17,7 +17,7 @@ const MyShop = () => {
     axios
       .get(`/products/my-products/${id}`)
       .then(async (res) => {
-        // console.log(res.data)
+        
         initialProductCardsArray = res.data;
         setProductCardsArray(initialProductCardsArray);
         

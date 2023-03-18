@@ -1,6 +1,6 @@
-import { Fragment, useEffect, useState } from "react";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { useSelector, useDispatch } from "react-redux";
+import {  useEffect, useState } from "react";
+
+import { useSelector } from "react-redux";
 import axios from "axios";
 import "./productImg.scss"
 
@@ -8,7 +8,7 @@ import "./productImg.scss"
 const ProductImgs = ({productId}) => {
  
   const [data, setData] = useState([]);
-  let { id } = useParams();
+  
   const userInfo = useSelector((state) => state.auth.userData);
 
   useEffect(() => {

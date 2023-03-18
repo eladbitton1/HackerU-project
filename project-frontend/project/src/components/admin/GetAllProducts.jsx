@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect } from "react";
 import axios from "axios";
-import ShowAllProducts from "../showAllProducts/ShowAllProducts"
+import ShowAllProducts from "../showAllProducts/ShowAllProducts";
 let initialProductCardsArray = [];
 const GetAllProducts = () => {
   const [productCardsArray, setProductCardsArray] = useState(
@@ -12,6 +12,7 @@ const GetAllProducts = () => {
       .get(`/products`)
       .then(async (res) => {
         initialProductCardsArray = res.data;
+        
         setProductCardsArray(initialProductCardsArray);
       })
       .catch((err) => {
@@ -26,7 +27,7 @@ const GetAllProducts = () => {
     );
 
     productCardsArrayCopy = productCardsArrayCopy.filter((item) =>
-      // console.log(item)
+     
       regex.test(item.productName)
     );
 
@@ -36,12 +37,9 @@ const GetAllProducts = () => {
     setFindInput(ev.target.value);
   };
 
-
   return (
     <Fragment>
       <div className="header">
-        
-        
         <div className="form-floating mb-3 my-5">
           <input
             type="text"
@@ -58,7 +56,7 @@ const GetAllProducts = () => {
               key={item._id}
               name={item.productName}
               desc={item.productDescription}
-              price = {item.productPrice}
+              price={item.productPrice}
               id={item._id}
             />
           ))}

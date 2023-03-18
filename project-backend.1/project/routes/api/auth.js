@@ -23,6 +23,10 @@ const {
   findGoogleUserById,
   getAllUsers,
   getAllGoogleUsers,
+  findUserAndAppointAdmin,
+  findGoogleUserAndAppointAdmin,
+  findUserAndDeleteUser,
+  findGoogleUserAndDeleteUser,
 } = require("../../models/users.model");
 const authMiddleware = require("../../middleware/auth.middleware");
 const allowAccessMiddleware = require("../../middleware/allowModify.middleware");
@@ -122,108 +126,182 @@ router.post("/register/google-account", async (req, res) => {
     res.status(400).json({ error });
   }
 });
-// ADD TO FAV
-router.patch("/addtofav/:id", async (req, res) => {
-  try {
-    // debug(" req.body " + req.body.id)
-    let isGoogleAccount = req.body.isGoogleAccount;
-    // debug(isGoogleAccount)
-    let userID = req.body.id;
-    let productID = req.params.id;
-    if (!isGoogleAccount) {
-      const findUserQueryByEmail = await findUserByEmail(req.body.email);
-      // debug(findUserQueryByEmail)
-      for (item of findUserQueryByEmail.favProducts) {
-        if (item === productID) {
-          throw "This product is already on your favorite list ";
-        }
-      }
-      const addProductToFavorites = await addProductToFav(userID, productID);
-      // debug(userID ," ",productID)
 
-      res.status(200).json(addProductToFavorites);
-    } else {
-      const findUserQueryByEmail = await findGoogleUserByEmail(req.body.email);
-      for (item of findUserQueryByEmail.favProducts) {
-        if (item === productID) {
-          throw "This product is already on your favorite list ";
-        }
+router.patch(
+  "/appoint-admin/:id",
+  authMiddleware,
+  allowAccessMiddleware,
+  async (req, res) => {
+    try {
+      const findUserAndAppointAsAdmin = await findUserAndAppointAdmin(
+        req.params.id
+      );
+      const findGoogleUserAndAppointAsAdmin =
+        await findGoogleUserAndAppointAdmin(req.params.id);
+      if (findUserAndAppointAsAdmin) {
+        res.status(200).json("user appointed as admin");
       }
-      const addProductToGoogleUserFavorrites = await addProductToGoogleUserFav(
+      if (findGoogleUserAndAppointAsAdmin) {
+        res.status(200).json("user appointed as admin");
+      }
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  }
+);
+
+// ADD TO FAV
+router.patch(
+  "/addtofav/:id",
+  authMiddleware,
+  allowAccessMiddleware,
+  async (req, res) => {
+    try {
+      // debug(" req.body " + req.body.id)
+      let isGoogleAccount = req.body.isGoogleAccount;
+      // debug(isGoogleAccount)
+      let userID = req.body.id;
+      let productID = req.params.id;
+      if (!isGoogleAccount) {
+        const findUserQueryByEmail = await findUserByEmail(req.body.email);
+        // debug(findUserQueryByEmail)
+        for (item of findUserQueryByEmail.favProducts) {
+          if (item === productID) {
+            debug("ITEM")
+            throw "This product is already on your favorite list ";
+          }
+        }
+        const addProductToFavorites = await addProductToFav(userID, productID);
+        // debug(userID ," ",productID)
+
+        res.status(200).json(addProductToFavorites);
+      } else {
+        const findUserQueryByEmail = await findGoogleUserByEmail(
+          req.body.email
+        );
+        for (item of findUserQueryByEmail.favProducts) {
+          if (item === productID) {
+            throw "This product is already on your favorite list ";
+          }
+        }
+        const addProductToGoogleUserFavorrites =
+          await addProductToGoogleUserFav(userID, productID);
+        res.status(200).json(addProductToGoogleUserFavorrites);
+      }
+
+      // debug(userID , productID)
+      // const addProductToFavorites = addProductToFav(userID,productID)
+      // debug("addProductToFavorites "+ addProductToFavorites)
+      // const userDetailsByMail = findUserById(req.body.id)
+      // debug("userID " + userID)
+
+      // debug("FAV " + userDetailsByMail , userID , productID)
+      // const findFavoriteProduct = await findFavProduct(productID);
+      // if (!findFavoriteProduct) {
+      //   const addProductToFavorite = await addProductToFav(userID, productID);
+      // } else {
+      //   throw " you already added this product to your favorites";
+      // }
+    } catch (error) {
+      // debug(error);
+      res.status(400).json({ error });
+    }
+  }
+);
+
+router.get(
+  "/all-users",
+  authMiddleware,
+  allowAccessMiddleware,
+  async (req, res) => {
+    try {
+      const getAllGoogleUsersInDB = await getAllGoogleUsers();
+      // debug(getAllGoogleUsersInDB)
+      const getAllUsersinDB = await getAllUsers();
+      // const getAllGoogleUsersinDB = getAllGoogleUsers();
+      // debug(getAllGoogleUsersinDB);
+      let combinedUsersArray = [...getAllGoogleUsersInDB, ...getAllUsersinDB];
+      debug(combinedUsersArray);
+      res.status(200).json(combinedUsersArray);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  }
+);
+
+//GET FAV products
+router.get(
+  "/getfavproductsarray/:id",
+  authMiddleware,
+  allowAccessMiddleware,
+  async (req, res) => {
+    try {
+      const findUserQueryById = await findUserById(req.params.id);
+
+      const findGoogleUserQueryById = await findGoogleUserById(req.params.id);
+
+      //  debug(findUserQueryById.favProducts)
+      if (findUserQueryById) {
+        res.json(findUserQueryById);
+      }
+      if (findGoogleUserQueryById) {
+        res.json(findGoogleUserQueryById);
+      }
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  }
+);
+router.delete(
+  "/delete-user/:id",
+  authMiddleware,
+  allowAccessMiddleware,
+  async (req, res) => {
+    try {
+      findUserAndDeleteUser, findGoogleUserAndDeleteUser;
+      const findUserAndDeleteTheUser = await findUserAndDeleteUser(
+        req.params.id
+      );
+      const findGoogleUserAndDeleteTheUser = await findGoogleUserAndDeleteUser(
+        req.params.id
+      );
+      if (findUserAndDeleteTheUser) {
+        res.json("user deleted");
+      }
+      if (findGoogleUserAndDeleteTheUser) {
+        res.json("user deleted");
+      }
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  }
+);
+
+//REMOVE PRODUCT FROM FAV
+router.patch(
+  "/removefromfav/:id",
+  authMiddleware,
+  allowAccessMiddleware,
+  async (req, res) => {
+    try {
+      let userID = req.body.id;
+      debug(userID)
+      let productID = req.params.id;
+      const removeProductFromFavorites = await removeFavProductByID(
         userID,
         productID
       );
-      res.status(200).json(addProductToGoogleUserFavorrites);
+     
+      const removeGoogleUserProductFromFavorites =
+        await removeGoogleUserFavProductByID(userID, productID);
+        debug(removeProductFromFavorites)
+      res.status(200).json("product removed");
+    } catch (error) {
+      debug(error);
+      res.status(400).json({ error });
     }
-
-    // debug(userID , productID)
-    // const addProductToFavorites = addProductToFav(userID,productID)
-    // debug("addProductToFavorites "+ addProductToFavorites)
-    // const userDetailsByMail = findUserById(req.body.id)
-    // debug("userID " + userID)
-
-    // debug("FAV " + userDetailsByMail , userID , productID)
-    // const findFavoriteProduct = await findFavProduct(productID);
-    // if (!findFavoriteProduct) {
-    //   const addProductToFavorite = await addProductToFav(userID, productID);
-    // } else {
-    //   throw " you already added this product to your favorites";
-    // }
-  } catch (error) {
-    // debug(error);
-    res.status(400).json({ error });
   }
-});
-
-router.get("/all-users", async (req, res) => {
-  try {
-    const getAllGoogleUsersInDB = await getAllGoogleUsers();
-    // debug(getAllGoogleUsersInDB)
-    const getAllUsersinDB = await getAllUsers();
-    // const getAllGoogleUsersinDB = getAllGoogleUsers();
-    // debug(getAllGoogleUsersinDB);
-    res.status(200).json([getAllGoogleUsersInDB, getAllUsersinDB]);
-  } catch (error) {
-    res.status(400).json({ error });
-  }
-});
-
-//GET FAV products
-router.get("/getfavproductsarray/:id", async (req, res) => {
-  try {
-    const findUserQueryById = await findUserById(req.params.id);
-
-    const findGoogleUserQueryById = await findGoogleUserById(req.params.id);
-
-    //  debug(findUserQueryById.favProducts)
-    if (findUserQueryById) {
-      res.json(findUserQueryById.favProducts);
-    }
-    if (findGoogleUserQueryById) {
-      res.json(findGoogleUserQueryById.favProducts);
-    }
-  } catch (error) {
-    res.status(400).json({ error });
-  }
-});
-
-//REMOVE PRODUCT FROM FAV
-router.patch("/removefromfav/:id", async (req, res) => {
-  try {
-    let userID = await req.body._id;
-    let productID = req.params.id;
-    const removeProductFromFavorites = await removeFavProductByID(
-      userID,
-      productID
-    );
-    const removeGoogleUserProductFromFavorites =
-      await removeGoogleUserFavProductByID(userID, productID);
-    res.status(200).json("product removed");
-  } catch (error) {
-    debug(error);
-    res.status(400).json({ error });
-  }
-});
+);
 
 router.post("/login", async (req, res) => {
   try {
@@ -302,7 +380,8 @@ router.post("/resetpassword/:token", async (req, res) => {
 });
 router.get(
   "/userInfo",
-
+  authMiddleware,
+  allowAccessMiddleware,
   async (req, res) => {
     try {
       // debug("req.headers "+ req.headers)

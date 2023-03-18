@@ -7,8 +7,7 @@ const autoLogin = async () => {
     if (token) {
       data = await axios.get("/auth/userInfo");
     }
-    // console.log(data)
-    // console.log( "BIG DATA " + data.config.headers.tokenFromGoogle)
+    
 
     return data;
   } catch (error) {
