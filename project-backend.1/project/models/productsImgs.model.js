@@ -22,22 +22,14 @@ const createNewProductImgs = (name, img, productId) => {
 };
 
 const showProductImgById = (id) => {
-  return ProductImgs.findOne({productId: id});
+  return ProductImgs.findOne({ productId: id });
 };
 const showAllProductsImgs = () => {
   return ProductImgs.find({});
 };
 
-// const updateAvatarImgByID = (id) => {
-//   return AvatarImgs.findByIdAndUpdate(id, {});
-// };
-
-// const deleteAvatarImgByID = (id) => {
-//   return AvatarImgs.findByIdAndDelete(id);
-// };
-
 module.exports = {
-    createNewProductImgs,
-    showAllProductsImgs,
-    showProductImgById
+  createNewProductImgs,
+  showAllProductsImgs,
+  showProductImgById,
 };

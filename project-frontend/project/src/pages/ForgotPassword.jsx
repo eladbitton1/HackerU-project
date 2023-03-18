@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect, Fragment } from "react";
-
 import axios from "axios";
 import { toast } from "react-toastify";
 import validate from "../validation/validation";
@@ -7,7 +6,7 @@ import emailSchema from "../validation/email_Validation";
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
-  
+
   const showErrMsgEmail = useRef();
   const emailRef = useRef();
   useEffect(() => {
@@ -15,8 +14,8 @@ const ForgotPassword = () => {
   }, []);
   const handleEmailChange = (ev) => {
     setEmail(ev.target.value);
-    if(email){
-      setIsFormValid(true)
+    if (email) {
+      setIsFormValid(true);
     }
   };
   const handleSubmit = (ev) => {
@@ -29,7 +28,6 @@ const ForgotPassword = () => {
     if (error) {
       let errorMsgs = "";
       for (let errorItem of error.details) {
-        
         if (errorItem.context.label === "Email") {
           emailRef.current.className = " form-control is-invalid ";
           showErrMsgEmail.current.className = "text-danger";
@@ -72,7 +70,7 @@ const ForgotPassword = () => {
     axios
       .post("/auth/forgotpassword", { email })
       .then(({ data }) => {
-        toast.success('Check email / spam email ', {
+        toast.success("Check email / spam email ", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -81,8 +79,8 @@ const ForgotPassword = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
-          });
-        console.log(data);
+        });
+       
       })
       .catch((err) => {
         toast.error("an error has occurd", {
@@ -115,7 +113,11 @@ const ForgotPassword = () => {
           </div>
           <label htmlFor="email">Email address</label>
         </div>
-        <button disabled={!isFormValid} type="submit" className="btn btn-primary">
+        <button
+          disabled={!isFormValid}
+          type="submit"
+          className="btn btn-primary"
+        >
           Send mail
         </button>
       </form>

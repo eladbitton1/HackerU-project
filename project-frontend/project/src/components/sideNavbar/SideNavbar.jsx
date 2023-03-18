@@ -1,7 +1,6 @@
 
-import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { authActions } from "store/auth";
+import { useSelector } from "react-redux";
+
 import NavlinksHandler from "partial/NavlinksHandler";
 import AvatarImg from "components/avatarImg/AvatarImg";
 import jwt_decode from "jwt-decode";
@@ -32,7 +31,7 @@ const SideNavbar = () => {
   
 
   return (
-    <nav className="navbar  navbar-expand-lg bg-light sideNavBar">
+    <nav className="navbar  navbar-expand-lg bg-light sideNavBar w-100">
       <div className="container">
         <button
           className="navbar-toggler"
@@ -46,8 +45,8 @@ const SideNavbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul className="navbar-nav flex-column my-3">
-            <li className="mb-5">
+          <ul className="navbar-nav flex-column my-3 ">
+            <li className="mb-5 ">
               {userObj.picture ? (
                 <img className="picFromGoogle" src={userObj.picture} alt={userObj.given_name} />
               ) : (

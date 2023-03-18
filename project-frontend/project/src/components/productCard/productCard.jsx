@@ -1,18 +1,15 @@
-
 import { Fragment, useState, useEffect } from "react";
 import ProductImgs from "../productImgs/productImgs";
-
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import "./productCard.scss";
 
-const ProductCard = ({ name, desc,price , id, onDelete }) => {
-  
+const ProductCard = ({ name, desc, price, id, onDelete }) => {
   const [data, setData] = useState([]);
   const userInfo = useSelector((state) => state.auth.userData);
   let isOnFavorites = false;
-  
+
   useEffect(() => {
     axios
       .get(`/auth/getfavproductsarray/${userInfo.id}`)

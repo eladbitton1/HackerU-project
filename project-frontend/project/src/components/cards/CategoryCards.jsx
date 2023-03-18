@@ -1,10 +1,8 @@
-
 import { Link } from "react-router-dom";
 import { Fragment } from "react";
-import  "./cardsStyle.scss"
+import "./cardsStyle.scss";
 
 const CategoryCards = ({ label, image, desc, url }) => {
-  
   return (
     <Fragment>
       <div className="col">

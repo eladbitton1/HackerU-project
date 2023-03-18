@@ -1,4 +1,3 @@
-const { query } = require("express");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 let debug = require("debug")("project:users.model");
@@ -7,14 +6,12 @@ const usersSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  avatar: { type: String },
   favProducts: [String],
   isAdmin: { type: Boolean, default: false },
 });
 const googleUsersSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  avatar: { type: String },
   favProducts: [String],
   isAdmin: { type: Boolean, default: false },
 });
@@ -28,14 +25,13 @@ const findFavProduct = (favProducts) => Users.findOne({ favProducts });
 const findGoogleUserFavProduct = (favProducts) =>
   GoogleUsers.findOne({ favProducts });
 
-
 const removeFavProductByID = (id, favProducts) => {
-  const query = {_id:id}
+  const query = { _id: id };
   return Users.findOneAndUpdate(query, { $pull: { favProducts } });
 };
 
 const removeGoogleUserFavProductByID = (id, favProducts) => {
-  const query = {_id:id}
+  const query = { _id: id };
   return GoogleUsers.findOneAndUpdate(query, { $pull: { favProducts } });
 };
 
@@ -52,14 +48,14 @@ const createGoogleNewUser = (userData) => {
   const newUser = new GoogleUsers(userData);
   return newUser.save();
 };
-const findUserAndAppointAdmin = (id)=>{
-  const query = {_id:id}
-  return  Users.findOneAndUpdate(query, { isAdmin: true })
-}
-const findGoogleUserAndAppointAdmin = (id)=>{
-  const query = {_id:id}
-  return GoogleUsers.findOneAndUpdate(query, { isAdmin: true })
-}
+const findUserAndAppointAdmin = (id) => {
+  const query = { _id: id };
+  return Users.findOneAndUpdate(query, { isAdmin: true });
+};
+const findGoogleUserAndAppointAdmin = (id) => {
+  const query = { _id: id };
+  return GoogleUsers.findOneAndUpdate(query, { isAdmin: true });
+};
 const updatePasswordById = (id, password) =>
   Users.findByIdAndUpdate(id, { password });
 
@@ -80,16 +76,16 @@ const addProductToGoogleUserFav = (id, productID) => {
     { new: true }
   );
 };
-// const addProductToGoogleUserFav = (id,favProducts) => GoogleUsers.findOneAndUpdate(id,{$push:{favProducts}})
+
 const findUserById = (id) => Users.findOne({ _id: id });
 
 const findGoogleUserById = (id) => GoogleUsers.findOne({ _id: id });
-const findUserAndDeleteUser = (id)=>{
-  return Users.findOneAndDelete({_id:id})
-}
-const findGoogleUserAndDeleteUser = (id)=>{
-  return GoogleUsers.findOneAndDelete({_id:id})
-}
+const findUserAndDeleteUser = (id) => {
+  return Users.findOneAndDelete({ _id: id });
+};
+const findGoogleUserAndDeleteUser = (id) => {
+  return GoogleUsers.findOneAndDelete({ _id: id });
+};
 module.exports = {
   findUserByEmail,
   createNewUser,
@@ -109,5 +105,5 @@ module.exports = {
   findUserAndAppointAdmin,
   findGoogleUserAndAppointAdmin,
   findUserAndDeleteUser,
-  findGoogleUserAndDeleteUser
+  findGoogleUserAndDeleteUser,
 };

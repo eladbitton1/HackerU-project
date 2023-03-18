@@ -5,18 +5,14 @@ const newProductSchema = Joi.object({
   productName: Joi.string().min(2).max(255).required().trim(),
   productDescription: Joi.string().allow("").min(2).trim(),
   productCategory: Joi.string().min(5).max(255).required().trim(),
-  productPrice:Joi.number().greater(-1).integer(),
-  productImg: Joi.string().regex(/^http(s?)\:\/\/(\.?)/),
-  productLikes: Joi.number().greater(-1).integer()
+  productPrice: Joi.number().greater(-1).integer(),
 });
 const updateProductSchema = Joi.object({
   id: Joi.string().length(24).hex().required().trim(),
   productName: Joi.string().min(2).max(255).required().trim(),
   productDescription: Joi.string().allow("").min(2).trim(),
-  productCategory: Joi.string().min(5).max(15).required().trim(),
-  productPrice:Joi.number().greater(-1).integer(),
-  productImg: Joi.string().regex(/^http(s?)\:\/\/(\.?)/),
-  productLikes: Joi.number().greater(-1).integer()
+  productCategory: Joi.string().min(6).max(20).required().trim(),
+  productPrice: Joi.number().greater(-1).integer(),
 });
 const deleteProductSchema = Joi.object({
   id: Joi.string().length(24).hex().required().trim(),
@@ -39,9 +35,9 @@ const validateFindProductByIDSchema = (userInput) => {
 };
 
 module.exports = {
-    newProductSchema,
-    validateNewProductSchema,
-    validateUpdateProductSchema,
-    validateDeleteProductSchema,
-    validateFindProductByIDSchema,
+  newProductSchema,
+  validateNewProductSchema,
+  validateUpdateProductSchema,
+  validateDeleteProductSchema,
+  validateFindProductByIDSchema,
 };

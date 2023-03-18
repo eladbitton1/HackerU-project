@@ -3,9 +3,7 @@ import axios from "axios";
 import { useParams, useHistory } from "react-router-dom";
 import validate from "../validation/validation";
 import { toast } from "react-toastify";
-
 import productSchema from "validation/product_Validation";
-
 
 const EditProduct = () => {
   const history = useHistory();
@@ -33,7 +31,7 @@ const EditProduct = () => {
     (async () => {
       try {
         let { data } = await axios.get(`/products/getbyid/${id}`);
-        
+
         setProductInfo({
           productName: data.productName,
           productDescription: data.productDescription,
@@ -50,15 +48,15 @@ const EditProduct = () => {
       productDetailsinput[ev.target.id] = ev.target.value;
       setProductInfo(productDetailsinput);
     }
-    if(productInfo.productPrice){
-      setIsFormValid(true)
+    if (productInfo.productPrice) {
+      setIsFormValid(true);
     }
   };
 
   const handleFormSubmit = async (ev) => {
     ev.preventDefault();
     const { error } = validate(productInfo, productSchema);
-    
+
     productNameRef.current.className = " form-control is-valid ";
     productDescriptionRef.current.className = " form-control is-valid ";
     productPriceRef.current.className = " form-control is-valid ";
@@ -70,7 +68,6 @@ const EditProduct = () => {
     if (error) {
       let errorMsgs = "";
       for (let errorItem of error.details) {
-        
         if (errorItem.context.label === "productName") {
           productNameRef.current.className = " form-control is-invalid ";
           showErrMsgProductName.current.className = "text-danger";
@@ -124,7 +121,7 @@ const EditProduct = () => {
     }
 
     try {
-      console.log(productInfo)
+     
       let { data } = await axios.put(`/products/${id}`, {
         productInfo,
       });
@@ -139,7 +136,6 @@ const EditProduct = () => {
         theme: "light",
       });
       history.push("/");
-      
     } catch (err) {
       toast.error(`${err.response.data}`, {
         position: "top-right",
@@ -150,7 +146,6 @@ const EditProduct = () => {
         draggable: true,
         progress: undefined,
       });
-      
     }
   };
 
@@ -168,12 +163,10 @@ const EditProduct = () => {
           value={productInfo.productName}
           onChange={handleProductDetailsInputChange}
           ref={productNameRef}
-          
         />
         <div ref={showErrMsgProductName} className="visually-hidden">
           Please enter a valid product Name !
         </div>
-        
       </div>
 
       <div className="mb-3">
@@ -187,12 +180,10 @@ const EditProduct = () => {
           value={productInfo.productDescription}
           onChange={handleProductDetailsInputChange}
           ref={productDescriptionRef}
-          
         />
         <div ref={showErrMsgProductDescription} className="visually-hidden">
           Please enter a valid Product Description !
         </div>
-        
       </div>
       <div className="mb-3">
         <label htmlFor="productPrice" className="form-label">
@@ -223,7 +214,6 @@ const EditProduct = () => {
           aria-label="Default select example"
           onChange={handleProductDetailsInputChange}
           ref={productCategoryRef}
-          
         >
           <option defaultValue>Choose a Category</option>
           <option value="Household supply">Household supply</option>

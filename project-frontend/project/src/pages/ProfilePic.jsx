@@ -1,15 +1,12 @@
-import { Fragment, useState,  useRef } from "react";
+import { Fragment, useState, useRef } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-
 import { toast } from "react-toastify";
-
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 const UpdateProfilePic = () => {
-  // const nameRef = useRef();
   const history = useHistory();
-  
+
   const imageRef = useRef();
   const showErrMsgImage = useRef();
   const [isFormValid, setIsFormValid] = useState(false);
@@ -26,15 +23,13 @@ const UpdateProfilePic = () => {
     ) {
       imageRef.current.className = " form-control is-invalid ";
       showErrMsgImage.current.className = "text-danger";
-      setIsFormValid(false)
-    }else{
-      setIsFormValid(true)
+      setIsFormValid(false);
+    } else {
+      setIsFormValid(true);
     }
-    console.log(file.type);
+    
     setImage(ev.target.files[0]);
   };
-
-  
 
   const handleSubmitClick = (ev) => {
     ev.preventDefault();
@@ -44,13 +39,9 @@ const UpdateProfilePic = () => {
     axios
       .delete(`images/deleteAvatarImg/${id}`)
       .then(async (res) => {
-        
-
         history.push(`/my-account/${id}`);
       })
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
 
     axios
       .post(`/images/${id}`, formData)
@@ -76,7 +67,6 @@ const UpdateProfilePic = () => {
           draggable: true,
           progress: undefined,
         });
-        
       });
   };
 
@@ -103,7 +93,11 @@ const UpdateProfilePic = () => {
         <div ref={showErrMsgImage} className="visually-hidden">
           Please enter a valid Image format : Image / jpeg / png / webp!
         </div>
-        <button disabled={!isFormValid}  type="submit" className="btn btn-primary my-5">
+        <button
+          disabled={!isFormValid}
+          type="submit"
+          className="btn btn-primary my-5"
+        >
           Update Profile Pic
         </button>
       </form>

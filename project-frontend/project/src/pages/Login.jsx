@@ -84,10 +84,10 @@ const Login = () => {
         draggable: true,
         progress: undefined,
       });
-      
+
       return;
     }
-    console.log(userInput);
+    
     axios
       .post("/auth/login", userInput)
       .then(async (res) => {
@@ -103,12 +103,11 @@ const Login = () => {
           progress: undefined,
           theme: "light",
         });
-        // console.log(res)
+       
 
         history.push("/loading");
       })
       .catch((err) => {
-        
         if (err.response.data.error === "invalid email/password") {
           passwordRef.current.className = " form-control is-invalid ";
           showErrMsgPassword.current.className = "text-danger";

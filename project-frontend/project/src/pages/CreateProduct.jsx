@@ -1,11 +1,9 @@
 import { useState, useRef, useEffect, Fragment } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import axios from "axios";
-
 import validate from "../validation/validation";
 import productSchema from "validation/product_Validation";
 import { toast } from "react-toastify";
-
 const CreateProduct = () => {
   const history = useHistory();
   const productNameRef = useRef();
@@ -31,16 +29,16 @@ const CreateProduct = () => {
     let newProductInfo = JSON.parse(JSON.stringify(productInfo));
     newProductInfo[ev.target.id] = ev.target.value;
     setProductInfo(newProductInfo);
-    console.log(productInfo.productCategory)
-    if(productInfo.productPrice){
-      setIsFormValid(true)
+   
+    if (productInfo.productPrice) {
+      setIsFormValid(true);
     }
   };
 
   const handleSubmitClick = (ev) => {
     ev.preventDefault();
     const { error } = validate(productInfo, productSchema);
-    
+
     productNameRef.current.className = " form-control is-valid ";
     productDescriptionRef.current.className = " form-control is-valid ";
     productPriceRef.current.className = " form-control is-valid ";
@@ -53,7 +51,7 @@ const CreateProduct = () => {
     if (error) {
       let errorMsgs = "";
       for (let errorItem of error.details) {
-        console.log(errorItem);
+       
         if (errorItem.context.label === "productName") {
           productNameRef.current.className = " form-control is-invalid ";
           showErrMsgProductName.current.className = "text-danger";
@@ -108,7 +106,6 @@ const CreateProduct = () => {
     axios
       .post("/products/", productInfo)
       .then(async (res) => {
-        
         toast.success("Please Upload a picture of the product", {
           position: "top-right",
           autoClose: 5000,
@@ -211,10 +208,13 @@ const CreateProduct = () => {
           <div ref={showErrMsgProductCategory} className="visually-hidden">
             Please choose a Category !
           </div>
-          
         </div>
 
-        <button disabled={!isFormValid} type="submit" className="btn btn-primary">
+        <button
+          disabled={!isFormValid}
+          type="submit"
+          className="btn btn-primary"
+        >
           Submit
         </button>
       </form>

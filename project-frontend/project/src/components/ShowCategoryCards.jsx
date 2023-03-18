@@ -1,7 +1,4 @@
 import { Fragment } from "react";
-
-
-
 import CategoryCards from "./cards/CategoryCards";
 let categories = [
   "Others",
@@ -9,7 +6,7 @@ let categories = [
   "Fashion",
   "Entertainment",
   "Pet supply",
-  "Electronics"
+  "Electronics",
 ];
 let cardInfo = [
   {
@@ -69,7 +66,6 @@ let cardInfo = [
 ];
 
 const ShowCategoryCards = () => {
-  
   return (
     <Fragment>
       <div className="row row-cols-1 row-cols-md-2 g-4">
@@ -79,7 +75,6 @@ const ShowCategoryCards = () => {
             label={item.label}
             image={item.image.url}
             desc={item.description}
-            
             url={item.url}
           />
         ))}

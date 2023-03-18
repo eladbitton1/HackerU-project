@@ -11,10 +11,8 @@ const GetAllUsers = () => {
       .get("/auth/all-users")
       .then(async (res) => {
         initialUsersArray = res.data;
-        console.log(initialUsersArray);
-        setQueries(initialUsersArray);
 
-        
+        setQueries(initialUsersArray);
       })
       .catch((err) => {
         console.log(err);
@@ -35,7 +33,7 @@ const GetAllUsers = () => {
     axios
       .delete(`/auth/delete-user/${userId}`)
       .then(async (res) => {
-        toast.info('User Deleted', {
+        toast.info("User Deleted", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -44,10 +42,9 @@ const GetAllUsers = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
-          });
-
-        
+        });
       })
+
       .catch((err) => {
         console.log(err);
       });
@@ -57,7 +54,7 @@ const GetAllUsers = () => {
     axios
       .patch(`/auth/appoint-admin/${userId}`)
       .then(async (res) => {
-        toast.info('User Appointed as Admin', {
+        toast.info("User Appointed as Admin", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -66,8 +63,7 @@ const GetAllUsers = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
-          });
-
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -77,7 +73,6 @@ const GetAllUsers = () => {
     setFindUserInput(ev.target.value);
   };
   return (
-    
     <Fragment>
       <div className="form-floating mb-3 my-5">
         <input
@@ -90,8 +85,6 @@ const GetAllUsers = () => {
         <label htmlFor="floatingInput">Search a user</label>
       </div>
       {queries.map((item, idx) => (
-        
-
         <div key={"query-" + idx}>
           <div>
             <p className="d">

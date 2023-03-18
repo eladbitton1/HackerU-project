@@ -4,8 +4,6 @@ const initialAuthState = {
   loggedIn: false,
   isAdmin: false,
   userData: null,
- 
-  
 };
 
 const authSlice = createSlice({
@@ -15,17 +13,13 @@ const authSlice = createSlice({
 
   reducers: {
     login(state, action) {
-      
       state.loggedIn = true;
-      
+
       state.isAdmin = action.payload.isAdmin;
       state.userData = action.payload;
-      
     },
 
     logout: (state) => initialAuthState,
-
-    
   },
 });
 

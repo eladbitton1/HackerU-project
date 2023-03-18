@@ -3,14 +3,19 @@ const Schema = mongoose.Schema;
 
 const reviewsSchema = new Schema({
   productName: { type: String, required: true },
-  reviewAuthor : { type: String, required: true },
+  reviewAuthor: { type: String, required: true },
   reviewDescription: { type: String },
   productId: { type: Schema.Types.ObjectId, ref: "products" },
 });
 
 const Reviews = mongoose.model("reviews", reviewsSchema);
 
-const createNewReview = (productName,reviewAuthor, reviewDescription, productId) => {
+const createNewReview = (
+  productName,
+  reviewAuthor,
+  reviewDescription,
+  productId
+) => {
   const review = new Reviews({
     productName,
     reviewAuthor,
@@ -25,26 +30,11 @@ const showAllReviews = () => {
 };
 
 const showProductReviewsWithProductId = (productId) => {
-  return Reviews.find({productId:productId});
-};
-
-const updateReviewByID = (id, productName,reviewAuthor, reviewDescription, productId) => {
-  return Reviews.findByIdAndUpdate(id, {
-    productName,
-    reviewAuthor,
-    reviewDescription,
-    productId,
-  });
-};
-
-const deleteReviewByID = (id) => {
-  return Products.findByIdAndDelete(id);
+  return Reviews.find({ productId: productId });
 };
 
 module.exports = {
   createNewReview,
   showAllReviews,
   showProductReviewsWithProductId,
-  updateReviewByID,
-  deleteReviewByID,
 };

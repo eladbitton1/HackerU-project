@@ -1,4 +1,4 @@
-import {  useEffect,  Fragment } from "react";
+import { useEffect, Fragment } from "react";
 import jwt_decode from "jwt-decode";
 import useAutoLogin from "../hooks/useAutoLogin";
 import { useHistory } from "react-router-dom";
@@ -8,18 +8,15 @@ const LoginWithGoogle = () => {
   const autoLoginFunction = useAutoLogin();
   const history = useHistory();
   const handleCallbackResponse = (response) => {
-    
     let userObj = jwt_decode(response.credential);
-    
+
     let userRegisterDetails = {
       name: userObj.given_name,
       email: userObj.email,
-  
     };
     axios
       .post("/auth/register/google-account", userRegisterDetails)
       .then(async (res) => {
-       
         localStorage.setItem("token", res.data.token);
         autoLoginFunction(res.data.token);
         history.push("/");
@@ -29,10 +26,9 @@ const LoginWithGoogle = () => {
       });
 
     history.push("/loading");
-    return userObj
-    
+    return userObj;
   };
-  
+
   useEffect(() => {
     /* global google */
     google.accounts.id.initialize({
@@ -45,7 +41,7 @@ const LoginWithGoogle = () => {
       size: "large",
     });
   }, []);
-  
+
   return (
     <Fragment>
       <div id="signInDiv" className="my-5"></div>

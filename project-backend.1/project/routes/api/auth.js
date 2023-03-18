@@ -12,10 +12,8 @@ const {
   createNewUser,
   updatePasswordById,
   addProductToFav,
-  findFavProduct,
   removeFavProductByID,
   findGoogleUserByEmail,
-  findGoogleUserFavProduct,
   removeGoogleUserFavProductByID,
   createGoogleNewUser,
   addProductToGoogleUserFav,
@@ -34,12 +32,11 @@ const jwtDecode = require("jwt-decode");
 
 const { createHash, cmpHash } = require("../../config/bcrypt");
 const { genToken, verifyToken } = require("../../config/jwt");
-const { json } = require("express");
+
 const nodemailer = require("nodemailer");
-const path = require("path");
 
 const multer = require("multer");
-const { decode } = require("punycode");
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./images");
@@ -60,7 +57,6 @@ const transporter = nodemailer.createTransport({
 
 router.post("/register", async (req, res) => {
   try {
-    // debug( "THIS REQ.BODY " + req.body.name)
     const validatedValue = await validateRegisterSchema(req.body);
     const user = await findUserByEmail(validatedValue.email);
     if (user) {
@@ -69,7 +65,7 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await createHash(validatedValue.password);
     validatedValue.password = hashedPassword;
     let newUser = await createNewUser(validatedValue);
-    // debug("newUser " +newUser)
+
     res.status(201).json(newUser);
   } catch (error) {
     global.logger.warn({
@@ -84,11 +80,8 @@ router.post("/register", async (req, res) => {
   }
 });
 
-//register google users
 router.post("/register/google-account", async (req, res) => {
   try {
-    // debug( "THIS REQ.BODY " + req.body.name)
-
     const user = await findGoogleUserByEmail(req.body.email);
     if (user) {
       const token = await genToken({
@@ -110,10 +103,6 @@ router.post("/register/google-account", async (req, res) => {
       });
       res.status(201).json({ token });
     }
-
-    //  let newUser =  await createNewUser(validatedValue);
-    // debug("newUser " +newUser)
-    // res.status(201).json(newUser);
   } catch (error) {
     global.logger.warn({
       method: req.method,
@@ -150,29 +139,25 @@ router.patch(
   }
 );
 
-// ADD TO FAV
 router.patch(
   "/addtofav/:id",
   authMiddleware,
   allowAccessMiddleware,
   async (req, res) => {
     try {
-      // debug(" req.body " + req.body.id)
       let isGoogleAccount = req.body.isGoogleAccount;
-      // debug(isGoogleAccount)
+
       let userID = req.body.id;
       let productID = req.params.id;
       if (!isGoogleAccount) {
         const findUserQueryByEmail = await findUserByEmail(req.body.email);
-        // debug(findUserQueryByEmail)
+
         for (item of findUserQueryByEmail.favProducts) {
           if (item === productID) {
-            debug("ITEM")
             throw "This product is already on your favorite list ";
           }
         }
         const addProductToFavorites = await addProductToFav(userID, productID);
-        // debug(userID ," ",productID)
 
         res.status(200).json(addProductToFavorites);
       } else {
@@ -188,22 +173,7 @@ router.patch(
           await addProductToGoogleUserFav(userID, productID);
         res.status(200).json(addProductToGoogleUserFavorrites);
       }
-
-      // debug(userID , productID)
-      // const addProductToFavorites = addProductToFav(userID,productID)
-      // debug("addProductToFavorites "+ addProductToFavorites)
-      // const userDetailsByMail = findUserById(req.body.id)
-      // debug("userID " + userID)
-
-      // debug("FAV " + userDetailsByMail , userID , productID)
-      // const findFavoriteProduct = await findFavProduct(productID);
-      // if (!findFavoriteProduct) {
-      //   const addProductToFavorite = await addProductToFav(userID, productID);
-      // } else {
-      //   throw " you already added this product to your favorites";
-      // }
     } catch (error) {
-      // debug(error);
       res.status(400).json({ error });
     }
   }
@@ -216,12 +186,10 @@ router.get(
   async (req, res) => {
     try {
       const getAllGoogleUsersInDB = await getAllGoogleUsers();
-      // debug(getAllGoogleUsersInDB)
+
       const getAllUsersinDB = await getAllUsers();
-      // const getAllGoogleUsersinDB = getAllGoogleUsers();
-      // debug(getAllGoogleUsersinDB);
+
       let combinedUsersArray = [...getAllGoogleUsersInDB, ...getAllUsersinDB];
-      debug(combinedUsersArray);
       res.status(200).json(combinedUsersArray);
     } catch (error) {
       res.status(400).json({ error });
@@ -229,7 +197,6 @@ router.get(
   }
 );
 
-//GET FAV products
 router.get(
   "/getfavproductsarray/:id",
   authMiddleware,
@@ -240,7 +207,6 @@ router.get(
 
       const findGoogleUserQueryById = await findGoogleUserById(req.params.id);
 
-      //  debug(findUserQueryById.favProducts)
       if (findUserQueryById) {
         res.json(findUserQueryById);
       }
@@ -258,7 +224,6 @@ router.delete(
   allowAccessMiddleware,
   async (req, res) => {
     try {
-      findUserAndDeleteUser, findGoogleUserAndDeleteUser;
       const findUserAndDeleteTheUser = await findUserAndDeleteUser(
         req.params.id
       );
@@ -277,7 +242,6 @@ router.delete(
   }
 );
 
-//REMOVE PRODUCT FROM FAV
 router.patch(
   "/removefromfav/:id",
   authMiddleware,
@@ -285,19 +249,16 @@ router.patch(
   async (req, res) => {
     try {
       let userID = req.body.id;
-      debug(userID)
       let productID = req.params.id;
       const removeProductFromFavorites = await removeFavProductByID(
         userID,
         productID
       );
-     
+
       const removeGoogleUserProductFromFavorites =
         await removeGoogleUserFavProductByID(userID, productID);
-        debug(removeProductFromFavorites)
       res.status(200).json("product removed");
     } catch (error) {
-      debug(error);
       res.status(400).json({ error });
     }
   }
@@ -326,7 +287,6 @@ router.post("/login", async (req, res) => {
     res.status(400).json({ error });
   }
 });
-//EMAIL SEND
 
 router.post("/forgotpassword", async (req, res) => {
   try {
@@ -334,8 +294,6 @@ router.post("/forgotpassword", async (req, res) => {
     const userData = await findUserByEmail(validatedValue.email);
     if (!userData) throw "error";
     const jwt = await genToken({ email: userData.email }, "1h");
-    debug(userData.email);
-    //send email or sms
     let passwordResetLink = "http://localhost:3000/resetpassword/" + jwt;
 
     const options = {
@@ -348,13 +306,10 @@ router.post("/forgotpassword", async (req, res) => {
     };
     transporter.sendMail(options, (err, info) => {
       if (err) {
-        debug(err);
         return;
       }
-      debug(info.response);
     });
 
-    // debug("http://localhost:3000/resetpassword/" + jwt);
     res.json({ msg: "Check your email / spam email " });
   } catch (error) {
     res.json({ msg: error });
@@ -363,12 +318,9 @@ router.post("/forgotpassword", async (req, res) => {
 
 router.post("/resetpassword/:token", async (req, res) => {
   try {
-    //add joy for password
-
     const validatedValue = await validatePasswordSchema(req.body.password);
     const payload = await verifyToken(req.params.token);
     const userData = await findUserByEmail(payload.email);
-    debug(validatedValue);
     if (!userData) throw "something went wrong";
 
     const hashedPassword = await createHash(validatedValue.password);
@@ -384,10 +336,7 @@ router.get(
   allowAccessMiddleware,
   async (req, res) => {
     try {
-      // debug("req.headers "+ req.headers)
       let dataFromToken = jwtDecode(req.headers["x-auth-token"]);
-      // let dataFromGoogleToken = jwtDecode(req.headers["tokenFromGoogle"]);
-      // debug("dataFromGoogleToken " + req.headers.data )
 
       res.json(dataFromToken);
     } catch (error) {

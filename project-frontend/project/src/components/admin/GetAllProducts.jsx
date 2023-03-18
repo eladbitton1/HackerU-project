@@ -12,7 +12,7 @@ const GetAllProducts = () => {
       .get(`/products`)
       .then(async (res) => {
         initialProductCardsArray = res.data;
-        
+
         setProductCardsArray(initialProductCardsArray);
       })
       .catch((err) => {
@@ -27,7 +27,6 @@ const GetAllProducts = () => {
     );
 
     productCardsArrayCopy = productCardsArrayCopy.filter((item) =>
-     
       regex.test(item.productName)
     );
 

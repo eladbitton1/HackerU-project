@@ -18,11 +18,9 @@ import { BrowserRouter } from "react-router-dom";
 axios.defaults.baseURL = `${process.env.REACT_APP_DOMAIN}/api`;
 
 axios.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token")
-  
-  
+  const token = localStorage.getItem("token");
+
   if (token) {
-    
     config.headers["x-auth-token"] = token;
   }
   return config;
@@ -35,7 +33,6 @@ root.render(
       <App />
     </BrowserRouter>
   </Provider>
-); 
-
+);
 
 reportWebVitals();

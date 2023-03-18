@@ -12,7 +12,6 @@ const registerSchema = Joi.object({
     )
     .required(),
   favorites: Joi.array().items(Joi.string().allow("").trim()),
-  avatar: Joi.string().trim(),
 });
 
 const loginSchema = Joi.object({
@@ -57,5 +56,5 @@ module.exports = {
   validateRegisterSchema,
   validateLoginSchema,
   validateForgotPasswordSchema,
-  validatePasswordSchema
+  validatePasswordSchema,
 };

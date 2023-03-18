@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-let debug = require("debug")("project:Reviews")
+let debug = require("debug")("project:Reviews");
 const {
   validateNewReviewSchema,
   validateUpdateReviewSchema,
@@ -11,8 +11,6 @@ const {
   createNewReview,
   showAllReviews,
   showProductReviewsWithProductId,
-  updateReviewByID,
-  deleteReviewByID,
 } = require("../../models/reviews.model");
 const authMiddleware = require("../../middleware/auth.middleware");
 const allowAccessMiddleware = require("../../middleware/allowModify.middleware");
@@ -36,17 +34,17 @@ router.get("/getbyid/:id", async (req, res) => {
   }
 });
 
-router.post("/:id", authMiddleware,allowAccessMiddleware, async (req, res) => {
-  
+router.post("/:id", authMiddleware, allowAccessMiddleware, async (req, res) => {
   try {
-    
     const validatedValue = await validateNewReviewSchema(req.body);
+  
     const userData = await createNewReview(
       validatedValue.productName,
       validatedValue.reviewAuthor,
       validatedValue.reviewDescription,
       req.params.id
     );
+  
     res.status(201).json(userData);
   } catch (err) {
     res.status(400).json({ error: err });
@@ -82,9 +80,7 @@ router.delete(
       const reviewData = await showReviewByID(validatedValue.id);
       if (!reviewData) throw "reviw does not exist";
       if (reviewData.ownerId === req.userData.id || req.userData.allowAccess) {
-        const reviewDataAfterDelete = await deleteReviewByID(
-          validatedValue.id
-        );
+        const reviewDataAfterDelete = await deleteReviewByID(validatedValue.id);
         res.json(reviewDataAfterDelete);
       } else {
         throw "unauthorized";

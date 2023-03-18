@@ -5,7 +5,10 @@ import "./UserInterface.scss";
 const UserInterface = () => {
   return (
     <div className="style">
-      <SideNavbar />
+      <div>
+        <SideNavbar />
+      </div>
+
       <Profile />
     </div>
   );

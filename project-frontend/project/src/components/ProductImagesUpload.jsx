@@ -1,4 +1,4 @@
-import { Fragment, useState,  useRef } from "react";
+import { Fragment, useState, useRef } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
@@ -30,12 +30,9 @@ const ProductImagesUpload = () => {
     } else {
       setIsFormValid(true);
     }
-    console.log(file.type);
-    
+
     setImage(ev.target.files[0]);
   };
-
-  
 
   const handleSubmitClick = (ev) => {
     ev.preventDefault();
@@ -45,7 +42,6 @@ const ProductImagesUpload = () => {
     axios
       .post(`/images/productImgs/${id}`, formData)
       .then(async (res) => {
-        
         toast.success("Product Created", {
           position: "top-right",
           autoClose: 5000,
@@ -56,7 +52,7 @@ const ProductImagesUpload = () => {
           progress: undefined,
           theme: "light",
         });
-        history.push(`/my-account/${id}`);
+        history.push(`/`);
       })
       .catch((err) => {
         console.log(err);
@@ -72,7 +68,7 @@ const ProductImagesUpload = () => {
         onSubmit={handleSubmitClick}
       >
         <label htmlFor="avatar" className="form-label my-3">
-          Upload Product Image
+          <h3>Upload Product Image</h3>
         </label>
         <input
           id="img"
@@ -86,7 +82,11 @@ const ProductImagesUpload = () => {
         <div ref={showErrMsgImage} className="visually-hidden">
           Please enter a valid Image format : Image / jpeg / png / webp!
         </div>
-        <button disabled={!isFormValid} type="submit" className="btn btn-primary my-5">
+        <button
+          disabled={!isFormValid}
+          type="submit"
+          className="btn btn-primary my-5"
+        >
           Upload Product Images
         </button>
       </form>

@@ -33,7 +33,7 @@ connectToDB
     debug("connected to db");
   })
   .catch((err) => {
-    debug("fatal error");
+    
     debug(err);
     process.exit(1);
   });

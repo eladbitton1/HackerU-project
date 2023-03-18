@@ -2,8 +2,8 @@ import { Fragment, useState, useEffect } from "react";
 import ProductImgs from "../productImgs/productImgs";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { useSelector} from "react-redux";
-const ShowAllProducts = ({ name, desc,price , id }) => {
+import { useSelector } from "react-redux";
+const ShowAllProducts = ({ name, desc, price, id }) => {
   const history = useHistory();
   const [data, setData] = useState([]);
   const userInfo = useSelector((state) => state.auth.userData);
@@ -12,24 +12,19 @@ const ShowAllProducts = ({ name, desc,price , id }) => {
   };
   let isOnFavorites = false;
   useEffect(() => {
-    
-    if(userInfo){
+    if (userInfo) {
       axios
-      .get(`/auth/getfavproductsarray/${userInfo.id}`)
-      .then(async (res) => {
-        
-        setData(res.data.favProducts);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        .get(`/auth/getfavproductsarray/${userInfo.id}`)
+        .then(async (res) => {
+          setData(res.data.favProducts);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    
   }, []);
   for (let item of data) {
-    
     if (item === id) {
-      
       isOnFavorites = true;
     }
   }
@@ -38,7 +33,7 @@ const ShowAllProducts = ({ name, desc,price , id }) => {
       <div className="col">
         <div className="card cardstyle">
           <div className="productImgStyle">
-          <div className="favorite-mark">{isOnFavorites ? "⭐" : ""}</div>
+            <div className="favorite-mark">{isOnFavorites ? "⭐" : ""}</div>
             <ProductImgs productId={id} key={id} />
           </div>
 

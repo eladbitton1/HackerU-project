@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useSelector } from "react-redux";
-
 const Loading = () => {
   let history = useHistory();
   const dataFromToken = useSelector((state) => state.auth.userData);
@@ -10,7 +9,7 @@ const Loading = () => {
       if (dataFromToken) {
         if (dataFromToken.biz === true) {
           history.push("/createcard");
-        }else {
+        } else {
           history.push("/");
         }
       } else {

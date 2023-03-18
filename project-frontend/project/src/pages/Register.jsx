@@ -26,7 +26,7 @@ const Register = () => {
     ev.preventDefault();
 
     const { error } = validate(userInput, registerSchema);
-   
+
     nameRef.current.className = " form-control is-valid ";
     passwordRef.current.className = " form-control is-valid ";
     emailRef.current.className = " form-control is-valid ";
@@ -84,11 +84,11 @@ const Register = () => {
 
       return;
     }
-    
+
     axios
       .post("/auth/register", userInput)
       .then(async (res) => {
-        toast.success('User Succesfully registered ', {
+        toast.success("User Succesfully registered ", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -97,12 +97,10 @@ const Register = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
-          });
-        history.push("/")
+        });
+        history.push("/");
       })
       .catch((err) => {
-        
-
         if (err.response.data.error === "try different email") {
           emailRef.current.className = " form-control is-invalid ";
           showErrMsgEmail.current.className = "text-danger";
@@ -126,8 +124,8 @@ const Register = () => {
       newUserInput[ev.target.id] = ev.target.value;
       setUserInput(newUserInput);
     }
-    if(userInput.password){
-      setIsFormValid(true)
+    if (userInput.password) {
+      setIsFormValid(true);
     }
   };
   return (
@@ -201,9 +199,12 @@ const Register = () => {
             ,lowercase letter , a number and a special symbol - !@#$%^&*
           </div>
         </div>
-        
 
-        <button disabled={!isFormValid} type="submit" className="btn btn-primary">
+        <button
+          disabled={!isFormValid}
+          type="submit"
+          className="btn btn-primary"
+        >
           Register
         </button>
       </form>

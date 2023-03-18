@@ -11,9 +11,7 @@ const productsSchema = new Schema({
     default: categoryEnum[0],
     required: true,
   },
-  productPrice :{type: Number ,required: true  },
-  productImg: { type: String },
-  productLikes: { type: Number },
+  productPrice: { type: Number, required: true },
   ownerId: { type: Schema.Types.ObjectId, ref: "users", ref: "googleUsers" },
 });
 
@@ -61,14 +59,13 @@ const updateProductByID = (
   productCategory,
   productPrice
 ) => {
-  
   return Products.findByIdAndUpdate(
     id,
     {
       productName,
       productDescription,
       productCategory,
-      productPrice
+      productPrice,
     },
     { new: true }
   );

@@ -12,11 +12,7 @@ import "./productDetails.scss";
 const ProductDetails = () => {
   const history = useHistory();
   const [productData, setProductData] = useState({});
-  
   const [data, setData] = useState([]);
-  const [reviewsArray, setReviewsArray] = useState([]);
-  
-
   const [isUserTheOwnerOfProduct, setIsUserTheOwnerOfProduct] = useState(false);
   const editProductBtnRef = useRef();
   const deleteProductBtnRef = useRef();
@@ -28,7 +24,6 @@ const ProductDetails = () => {
       axios
         .get(`/auth/getfavproductsarray/${userInfo.id}`)
         .then(async (res) => {
-          
           setData(res.data.favProducts);
         })
         .catch((err) => {
@@ -50,32 +45,20 @@ const ProductDetails = () => {
       .catch((err) => {
         console.log(err);
       });
-
-    axios
-      .get(`/reviews/getbyid/${id}`)
-      .then(async (res) => {
-        setReviewsArray(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }, []);
 
   useEffect(() => {
     if (productData.ownerId === userInfo.id || userInfo.isAdmin) {
-      
       setIsUserTheOwnerOfProduct(true);
     }
     if (!isUserTheOwnerOfProduct) {
-     
       editProductBtnRef.current.className = "btn btn-warning visually-hidden";
       deleteProductBtnRef.current.className = "btn btn-danger visually-hidden";
     } else {
       editProductBtnRef.current.className = "btn btn-warning ";
       deleteProductBtnRef.current.className = "btn btn-danger ";
     }
-    
-  }, [productData,isUserTheOwnerOfProduct]);
+  }, [productData, isUserTheOwnerOfProduct]);
   const handleAddOrRemoveProductFromFav = () => {
     if (!isOnFavorites) {
       axios
@@ -91,8 +74,7 @@ const ProductDetails = () => {
             progress: undefined,
             theme: "light",
           });
-          history.push(`/favorite-products/${userInfo.id}`)
-          
+          history.push(`/favorite-products/${userInfo.id}`);
         })
         .catch((err) => {
           console.log(err);
@@ -122,7 +104,7 @@ const ProductDetails = () => {
             progress: undefined,
             theme: "light",
           });
-          history.push("/")
+          history.push("/");
         })
         .catch((err) => {
           console.log(err);
@@ -132,12 +114,12 @@ const ProductDetails = () => {
   const handleEditProductsBtnClick = () => {
     history.push(`/edit-product/${id}`);
   };
-  
+
   const handleProductDelete = () => {
     axios
       .delete(`/products/${id} `)
       .then(async (res) => {
-        toast.info('Product deleted', {
+        toast.info("Product deleted", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -146,8 +128,8 @@ const ProductDetails = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
-          });
-        history.push("/")
+        });
+        history.push("/");
       })
       .catch((err) => {
         console.log(err);
@@ -161,15 +143,12 @@ const ProductDetails = () => {
       <div className="col">
         <div className="card-body">
           <h5 className="card-title">
-            {" "}
             Product name : {productData.productName}
           </h5>
           <p className="card-text">
-            {" "}
             Product Description : {productData.productDescription}
           </p>
           <p className="card-text">
-            {" "}
             Product Price : {productData.productPrice} $
           </p>
           <button
@@ -180,7 +159,6 @@ const ProductDetails = () => {
           >
             <FontAwesomeIcon icon={faPenToSquare} />
             &nbsp;Edit product
-            
           </button>
           <button
             type="button"
@@ -188,7 +166,6 @@ const ProductDetails = () => {
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
             ref={deleteProductBtnRef}
-            
           >
             <FontAwesomeIcon icon={faTrashCan} />
             &nbsp;Delete
@@ -204,7 +181,7 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      <Reviews />
+      <Reviews productName={productData.productName} />
 
       <div
         className="modal fade"

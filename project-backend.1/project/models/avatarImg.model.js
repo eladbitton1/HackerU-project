@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-let debug = require("debug")("project:AvatarModel")
+let debug = require("debug")("project:AvatarModel");
 
 const avatarImgSchema = new Schema({
   name: String,
@@ -8,7 +8,7 @@ const avatarImgSchema = new Schema({
     data: Buffer,
     contentType: String,
   },
-  ownerId: { type: Schema.Types.ObjectId, ref: "users", ref:"googleUsers" },
+  ownerId: { type: Schema.Types.ObjectId, ref: "users", ref: "googleUsers" },
 });
 
 const AvatarImgs = mongoose.model("avatarImgs", avatarImgSchema);
@@ -23,8 +23,7 @@ const createNewAvatarImg = (name, img, ownerId) => {
 };
 
 const showAvatarImgByID = (id) => {
- 
-  return AvatarImgs.findOne({ownerId: id});
+  return AvatarImgs.findOne({ ownerId: id });
 };
 const showAllAvatarImgs = () => {
   return AvatarImgs.find({});
@@ -35,7 +34,7 @@ const updateAvatarImgByID = (id) => {
 };
 
 const deleteAvatarImgByID = (id) => {
-  return AvatarImgs.findOneAndDelete({ownerId: id});
+  return AvatarImgs.findOneAndDelete({ ownerId: id });
 };
 
 module.exports = {
@@ -43,5 +42,5 @@ module.exports = {
   showAllAvatarImgs,
   showAvatarImgByID,
   updateAvatarImgByID,
-  deleteAvatarImgByID
+  deleteAvatarImgByID,
 };

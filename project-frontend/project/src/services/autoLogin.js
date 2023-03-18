@@ -7,7 +7,6 @@ const autoLogin = async () => {
     if (token) {
       data = await axios.get("/auth/userInfo");
     }
-    
 
     return data;
   } catch (error) {

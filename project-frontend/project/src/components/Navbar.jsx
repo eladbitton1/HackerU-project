@@ -1,10 +1,9 @@
-
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { authActions } from "store/auth";
 import NavlinksHandler from "partial/NavlinksHandler";
-import {  useState, useEffect, } from "react";
+import { useState, useEffect } from "react";
 
 let links = [
   {
@@ -54,11 +53,11 @@ const Navbar = () => {
       setIsAdmin(true);
     }
   }, [loggedIn]);
- 
+
   const handleLogoutBtnClick = () => {
     localStorage.clear();
     dispatch(authActions.logout());
-    setIsAdmin(false)
+    setIsAdmin(false);
     history.push("/");
   };
   const handleAdminBtnClick = () => {
@@ -93,17 +92,18 @@ const Navbar = () => {
           </ul>
         </div>
         <form className="d-flex" role="search">
-          
-          
-          {isAdmin ?
-            authLinks.isAdmin.map((item, idx) => (
-              <button
-                type="button"
-                key={"admin -" + idx}
-                className="btn"
-                onClick={handleAdminBtnClick}
-              >{item.label}</button>
-            )) : ""}
+          {isAdmin
+            ? authLinks.isAdmin.map((item, idx) => (
+                <button
+                  type="button"
+                  key={"admin -" + idx}
+                  className="btn"
+                  onClick={handleAdminBtnClick}
+                >
+                  {item.label}
+                </button>
+              ))
+            : ""}
           {loggedIn
             ? authLinks.isLoggedIn.map((item, idx) => (
                 <button

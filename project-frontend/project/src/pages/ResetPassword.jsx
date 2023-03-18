@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { useParams,useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import passwordSchema from "validation/password_Validation";
 import validate from "../validation/validation";
 import { toast } from "react-toastify";
@@ -20,8 +20,6 @@ const ResetPassword = () => {
     setPassword(newUserInput);
   };
   const handleSubmit = (ev) => {
-    
-
     ev.preventDefault();
     const { error } = validate(password, passwordSchema);
     passwordRef.current.className = " form-control is-valid ";
@@ -69,7 +67,7 @@ const ResetPassword = () => {
     axios
       .post(`/auth/resetpassword/${token}`, { password })
       .then(({ data }) => {
-        toast.success('Password updated', {
+        toast.success("Password updated", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -78,9 +76,8 @@ const ResetPassword = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
-          });
-        history.push("/login")
-        
+        });
+        history.push("/login");
       })
       .catch((err) => {
         toast.error("an error has occurd , please try again later", {
@@ -92,7 +89,6 @@ const ResetPassword = () => {
           draggable: true,
           progress: undefined,
         });
-        
       });
   };
   return (
