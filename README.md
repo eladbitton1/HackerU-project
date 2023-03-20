@@ -11,6 +11,7 @@ where you can create a user to manage your own on-line shop in my web applicatio
 * admin can create / edit / delete all products
 and manage all users by deleting them or appoint them to an admin position aswell
 
+*** once the project is downloaded use npm i in the terminal to download node modules in both front end and back end projects
 
 *** to start the project go to /project-backebd.1/project and in the terminal type - npm run dev
 *** in /project-frontend/project  type in the terminal - npm start
